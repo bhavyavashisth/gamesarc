@@ -57,5 +57,68 @@
     </footer>
 
     <script src="script.js"></script>
+    <header class="topbar">
+<div class="brand">GamesArc</div>
+<nav class="mainnav">
+<a href="#pc">PC Games</a>
+<a href="#mac">Mac (Intel)</a>
+<a href="#arm">Mac (ARM)</a>
+<a href="#selfmade">Self-Made</a>
+</nav>
+<div class="actions">
+<input id="searchInput" class="search" placeholder="Search games..." />
+<button id="loginBtn" class="btn small">Login</button>
+<a href="admin.html" class="btn primary small">Admin Panel</a>
+</div>
+</header>
+
+<main>
+<section class="hero">
+<div class="hero-inner">
+<h1>Discover &amp; Download Games</h1>
+<p>PC • Mac (Intel/ARM) • Self-made — curated and ready to play.</p>
+</div>
+</section>
+
+<section class="store" id="pc">
+<h2>PC Games</h2>
+<div class="game-grid" id="pcGames"></div>
+</section>
+
+<section class="store" id="mac">
+<h2>Mac (Intel)</h2>
+<div class="game-grid" id="macGames"></div>
+</section>
+
+<section class="store" id="arm">
+<h2>Mac (ARM)</h2>
+<div class="game-grid" id="armGames"></div>
+</section>
+
+<section class="store" id="selfmade">
+<h2>Self-made Games</h2>
+<div class="game-grid" id="selfGames"></div>
+</section>
+
+</main>
+
+<footer class="sitefoot">
+<div>© GamesArc — built with ❤️</div>
+</footer>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal" aria-hidden="true">
+<div class="modal-panel">
+<h3>Login</h3>
+<input id="loginEmail" placeholder="Email" />
+<input id="loginPassword" type="password" placeholder="Password" />
+<div class="modal-actions">
+<button id="performLogin" class="btn primary">Sign in</button>
+<button id="closeLogin" class="btn">Cancel</button>
+</div>
+</div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
