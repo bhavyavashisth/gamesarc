@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GamesArc</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Welcome to GamesArc</h1>
-    <p>Your new gaming platform.</p>
-   
-    
 
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo">GamesArc</div>
+
+        <nav>
+            <a href="#pc">PC Games</a>
+            <a href="#mac">Mac Intel</a>
+            <a href="#arm">Mac ARM</a>
+            <a href="#selfmade">Self-Made Games</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Search games...">
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Welcome to GamesArc</h1>
+        <p>Your hub for PC, Mac (Intel + ARM) and self-made games</p>
+    </section>
+
+    <!-- GAME SECTIONS -->
+    <section class="game-section" id="pc">
+        <h2>PC Games</h2>
+        <div class="game-grid" id="pcGames"></div>
+    </section>
+
+    <section class="game-section" id="mac">
+        <h2>Mac Intel Games</h2>
+        <div class="game-grid" id="macGames"></div>
+    </section>
+
+    <section class="game-section" id="arm">
+        <h2>Mac ARM Games</h2>
+        <div class="game-grid" id="armGames"></div>
+    </section>
+
+    <section class="game-section" id="selfmade">
+        <h2>Self-Made Games</h2>
+        <div class="game-grid" id="selfGames"></div>
+    </section>
+
+    <footer id="contact">
+        <p>Made with ❤️ by GamesArc</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
