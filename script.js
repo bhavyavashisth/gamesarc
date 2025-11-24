@@ -34,14 +34,14 @@ if(!read('gamesarc_games')) {
       }
     ],
     mac: [
-      { id:'ghost-tsuma', title:'Ghosts of Tsuma', price:399, cover:'https://i.imgur.com/3XH3QeV.jpeg', logo:'https://i.imgur.com/3XH3QeV.jpeg', screenshots:[
+      { id:'ghost-tsuma', title:'Ghost of Tsushima', price:399, cover:'https://i.imgur.com/3XH3QeV.jpeg', logo:'https://i.imgur.com/3XH3QeV.jpeg', screenshots:[
           'https://i.imgur.com/3XH3QeV.jpeg'
         ],
         minSpecs:"macOS 11\nCPU: Apple Intel i5\nRAM:8GB\nGPU: Integrated\nDisk:50GB", 
         recSpecs:"macOS 12\nCPU: Apple M1\nRAM:16GB\nGPU: M1 Max\nDisk:50GB",
         section:'mac', locked:true
       },
-      { id:'ghost-yeathe', title:'Ghost of Yeathe', price:349, cover:'https://i.imgur.com/7Y1vQ0d.jpeg', logo:'https://i.imgur.com/7Y1vQ0d.jpeg', screenshots:[
+      { id:'ghost-yeathe', title:'Ghost of Yōtei', price:349, cover:'https://i.imgur.com/7Y1vQ0d.jpeg', logo:'https://i.imgur.com/7Y1vQ0d.jpeg', screenshots:[
           'https://i.imgur.com/7Y1vQ0d.jpeg'
         ], minSpecs:"TBD", recSpecs:"TBD", section:'mac', locked:true }
     ],
@@ -61,7 +61,7 @@ if(!read('gamesarc_games')) {
 
 // ensure users array exists
 if(!read('gamesarc_users')) {
-  write('gamesarc_users', [{ name:'Admin', username:'admin', pass:'adminpass', isPremium:true, isAdmin:true }]);
+  write('gamesarc_users', [{ name:'Admin', username:'admin', pass:'1181', isPremium:true, isAdmin:true }]);
 }
 
 // other containers
