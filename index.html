@@ -1,124 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GamesArc</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GamesArc — Play the best games</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">GamesArc</div>
 
-    <!-- NAVBAR -->
-    <header>
-        <div class="logo">GamesArc</div>
+    <nav class="mainnav">
+      <a href="#store">Store</a>
+      <a href="#requests" id="requestAnchor">Request Game</a>
+      <a href="#membership">Membership</a>
+      <a href="#contact" id="contactAnchor">Contact</a>
+    </nav>
 
-        <nav>
-            <a href="#pc">PC Games</a>
-            <a href="#mac">Mac Intel</a>
-            <a href="#arm">Mac ARM</a>
-            <a href="#selfmade">Self-Made Games</a>
-            <a href="#contact">Contact</a>
-        </nav>
+    <div class="right-actions">
+      <input id="searchInput" class="search" placeholder="Search games, e.g. Elden Ring" />
+      <button id="loginBtn" class="btn outline">Login</button>
+      <a href="admin.html" class="btn primary">Admin Panel</a>
+    </div>
+  </header>
 
-        <div class="search-box">
-            <input id="searchInput" type="text" placeholder="Search games...">
-        </div>
-    </header>
-
-    <!-- HERO SECTION -->
+  <main>
     <section class="hero">
-        <h1>Welcome to GamesArc</h1>
-        <p>Your hub for PC, Mac (Intel + ARM) and self-made games</p>
+      <div class="hero-inner">
+        <h1>Find, Request & Download Games</h1>
+        <p class="subtitle">PC • Mac (Intel & ARM) • Exclusive members-only titles — curated in one place.</p>
+      </div>
     </section>
 
-    <!-- GAME SECTIONS -->
-    <section class="game-section" id="pc">
-        <h2>PC Games</h2>
-        <div class="game-grid" id="pcGames"></div>
+    <section id="store" class="section">
+      <h2>Featured Games</h2>
+      <div id="gameGrid" class="grid"></div>
     </section>
 
-    <section class="game-section" id="mac">
-        <h2>Mac Intel Games</h2>
-        <div class="game-grid" id="macGames"></div>
+    <section id="membership" class="section">
+      <h2>Membership</h2>
+      <div class="membership-cards">
+        <div class="member-card">
+          <h3>Free</h3>
+          <p>Access to free titles</p>
+          <div class="member-price">₹0</div>
+          <button class="btn" id="freePlanBtn">Use Free</button>
+        </div>
+        <div class="member-card premium">
+          <h3>Premium</h3>
+          <p>Unlock premium & exclusive games</p>
+          <div class="member-price">₹199 / month</div>
+          <button class="btn primary" id="buyPremiumBtn">Buy Premium</button>
+        </div>
+      </div>
     </section>
 
-    <section class="game-section" id="arm">
-        <h2>Mac ARM Games</h2>
-        <div class="game-grid" id="armGames"></div>
+    <section id="requests" class="section">
+      <h2>Request a Game</h2>
+      <p>Don't see a game? Request it — admin will review.</p>
+      <div class="request-row">
+        <input id="requestTitle" placeholder="Game name (e.g. Elden Ring)" />
+        <button id="requestBtn" class="btn special">Request</button>
+      </div>
     </section>
 
-    <section class="game-section" id="selfmade">
-        <h2>Self-Made Games</h2>
-        <div class="game-grid" id="selfGames"></div>
+    <section id="suggestion" class="section">
+      <h2>Suggestion Box</h2>
+      <p>Share ideas — visible only to admins.</p>
+      <textarea id="suggestionText" placeholder="Write a suggestion..."></textarea>
+      <div class="row">
+        <button id="submitSuggestion" class="btn">Send Suggestion</button>
+      </div>
     </section>
 
-    <footer id="contact">
-        <p>Made with ❤️ by GamesArc</p>
+    <section id="contact" class="section">
+      <h2>Contact Admin</h2>
+      <p>Open a chat and message the site admin. Messages look like iPhone SMS bubbles.</p>
+      <div class="chat-wrap">
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-input-row">
+          <input id="chatText" placeholder="Type a message..." />
+          <button id="chatSend" class="btn primary">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> GamesArc — All rights reserved</div>
     </footer>
+  </main>
 
-    <script src="script.js"></script>
-    <header class="topbar">
-<div class="brand">GamesArc</div>
-<nav class="mainnav">
-<a href="#pc">PC Games</a>
-<a href="#mac">Mac (Intel)</a>
-<a href="#arm">Mac (ARM)</a>
-<a href="#selfmade">Self-Made</a>
-</nav>
-<div class="actions">
-<input id="searchInput" class="search" placeholder="Search games..." />
-<button id="loginBtn" class="btn small">Login</button>
-<a href="admin.html" class="btn primary small">Admin Panel</a>
-</div>
-</header>
+  <!-- Sticky slider visible while scrolling -->
+  <div id="stickySlider" class="sticky-slider">
+    <button id="sliderPrev" class="small-arrow">&lt;</button>
+    <div id="sliderTrack" class="slider-track"></div>
+    <button id="sliderNext" class="small-arrow">&gt;</button>
+  </div>
 
-<main>
-<section class="hero">
-<div class="hero-inner">
-<h1>Discover &amp; Download Games</h1>
-<p>PC • Mac (Intel/ARM) • Self-made — curated and ready to play.</p>
-</div>
-</section>
+  <!-- Game detail modal -->
+  <div id="gameModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <button id="closeGame" class="modal-close">&times;</button>
+      <div class="detail-top">
+        <img id="gameLogo" class="detail-logo" src="" alt="logo" />
+        <div class="detail-info">
+          <h2 id="gameTitleDetail"></h2>
+          <p id="gamePriceDetail" class="muted"></p>
+          <div id="specsWrap" class="specs">
+            <div><strong>Minimum</strong><pre id="minSpecs"></pre></div>
+            <div><strong>Recommended</strong><pre id="recSpecs"></pre></div>
+          </div>
+          <div class="detail-actions">
+            <button id="downloadBtn" class="btn-download">Download</button>
+            <button id="requestDetailBtn" class="btn outline">Request</button>
+          </div>
+        </div>
+      </div>
 
-<section class="store" id="pc">
-<h2>PC Games</h2>
-<div class="game-grid" id="pcGames"></div>
-</section>
+      <div class="screenshots" id="screenshots"></div>
+    </div>
+  </div>
 
-<section class="store" id="mac">
-<h2>Mac (Intel)</h2>
-<div class="game-grid" id="macGames"></div>
-</section>
+  <!-- Login / Signup Modal -->
+  <div id="authModal" class="modal" aria-hidden="true">
+    <div class="modal-panel small">
+      <button id="closeAuth" class="modal-close">&times;</button>
+      <div class="auth-tabs">
+        <button id="tabLogin" class="tab active">Login</button>
+        <button id="tabSignup" class="tab">Sign up</button>
+      </div>
 
-<section class="store" id="arm">
-<h2>Mac (ARM)</h2>
-<div class="game-grid" id="armGames"></div>
-</section>
+      <form id="loginForm" class="auth-form">
+        <input id="loginUser" placeholder="Username" required />
+        <input id="loginPass" type="password" placeholder="Password" required />
+        <div class="row">
+          <button class="btn primary" id="doLogin">Login</button>
+        </div>
+      </form>
 
-<section class="store" id="selfmade">
-<h2>Self-made Games</h2>
-<div class="game-grid" id="selfGames"></div>
-</section>
+      <form id="signupForm" class="auth-form hidden">
+        <input id="signupName" placeholder="Full name" required />
+        <input id="signupUser" placeholder="Username" required />
+        <input id="signupPass" type="password" placeholder="Password" required />
+        <div class="row">
+          <button class="btn primary" id="doSignup">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-</main>
-
-<footer class="sitefoot">
-<div>© GamesArc — built with ❤️</div>
-</footer>
-
-<!-- Login Modal -->
-<div id="loginModal" class="modal" aria-hidden="true">
-<div class="modal-panel">
-<h3>Login</h3>
-<input id="loginEmail" placeholder="Email" />
-<input id="loginPassword" type="password" placeholder="Password" />
-<div class="modal-actions">
-<button id="performLogin" class="btn primary">Sign in</button>
-<button id="closeLogin" class="btn">Cancel</button>
-</div>
-</div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

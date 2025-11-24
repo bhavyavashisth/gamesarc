@@ -1,9 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GamesArc Admin</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GamesArc — Admin</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">GamesArc — Admin</div>
+    <div style="margin-left:auto"><a href="index.html" class="btn">Open Store</a></div>
+  </header>
+
+  <main style="padding:20px;max-width:1000px;margin:0 auto">
+    <h2>Admin Login</h2>
+    <p>Enter admin credentials (default admin / adminpass)</p>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input id="admUser" placeholder="username" />
+      <input id="admPass" type="password" placeholder="password" />
+      <button id="admLogin" class="btn primary">Sign in</button>
+    </div>
+
+    <div id="adminArea" style="display:none;margin-top:18px">
+      <h3>Upload Game</h3>
+      <form id="uploadForm" style="display:flex;flex-direction:column;gap:8px;max-width:720px">
+        <select id="uploadSection">
+          <option value="pc">PC</option>
+          <option value="mac">Mac</option>
+          <option value="arm">ARM</option>
+          <option value="self">Self-made</option>
+        </select>
+        <input id="uploadTitle" placeholder="Title" />
+        <input id="uploadPrice" type="number" placeholder="Price (0 for free)" />
+        <input id="uploadLogo" type="file" accept="image/*" />
+        <input id="uploadScreens" type="file" accept="image/*" multiple />
+        <textarea id="uploadMin" placeholder="Minimum specs"></textarea>
+        <textarea id="uploadRec" placeholder="Recommended specs"></textarea>
+        <label><input type="checkbox" id="uploadLocked" /> Members-only (locked)</label>
+        <div><button type="submit" class="btn primary">Save Game</button></div>
+      </form>
+
+      <h3 style="margin-top:18px">Requests</h3>
+      <div id="requestsList" style="background:var(--card);padding:10px;border-radius:8px"></div>
+
+      <h3 style="margin-top:18px">Suggestions</h3>
+      <div id="suggestionsList" style="background:var(--card);padding:10px;border-radius:8px"></div>
+    </div>
+  </main>
+
+  <script>
+    // admin login
+    document.getElementById('admLogin').addEventListener('click', ()=>{
+      const u = document.getElementById('admUser').value.trim();
+      const p = document.getElementById('admPass').value.trim();
+      const users = JSON.parse(localStorage.getItem('gamesarc_users')||'[]');
+      const me = users.find(x=>x.username===u && x.pass===p && x.isAdmin);
+      if(!me) return alert('Invalid admin credentials');
+      document.getElementById('adminArea').style.display='block';
+      loadRequests(); loadSuggestions();
+    });
+
+    // helper to convert file to dataURL
+    function fileToDataUrl(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(); r.readAsDataURL(file); }) }
+
+    document.getElementById('uploadForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const section = document.getElementById('uploadSection').value;
+      const title = document.getElementById('uploadTitle').value.trim();
+      const price = document.getElementById('uploadPrice').value;
+      const logoFile = document.getElementById('uploadLogo').files[0];
+      const screens = Array.from(document.getElementById('uploadScreens').files || []);
+      if(!title) return alert('Give title');
+      const logo = logoFile ? await fileToDataUrl(logoFile) : 'https://i.imgur.com/placeholder.png';
+      const ss = [];
+      for(const f of screens){ const d = await fileToDataUrl(f); ss.push(d) }
+      const min = document.getElementById('uploadMin').value.trim();
+      const rec = document.getElementById('uploadRec').value.trim();
+      const locked = document.getElementById('uploadLocked').checked;
+
+      const games = JSON.parse(localStorage.getItem('gamesarc_games')||'{}');
+      const id = section + '-' + Date.now();
+      const item = { id, title, price: price?Number(price):0, cover: logo, logo: logo, screenshots: ss.length?ss:[logo], minSpecs: min, recSpecs: rec, section, locked };
+      games[section] = games[section] || [];
+      games[section].unshift(item);
+      localStorage.setItem('gamesarc_games', JSON.stringify(games));
+      alert('Game saved to store (localStorage). Open index.html and refresh to see it.');
+    });
+
+    function loadRequests(){
+      const arr = JSON.parse(localStorage.getItem('gamesarc_requests')||'[]');
+      const wrap = document.getElementById('requestsList'); wrap.innerHTML='';
+      arr.forEach(r=>{
+        const d=document.createElement('div'); d.style.padding='8px'; d.style.borderBottom='1px solid rgba(255,255,255,0.02)';
+        d.innerHTML = `<strong>${r.title}</strong> — by ${r.by} <button class="btn" onclick="deleteReq('${r.id}')">Mark done</button>`;
+        wrap.appendChild(d);
+      });
+    }
+    function deleteReq(id){
+      let arr = JSON.parse(localStorage.getItem('gamesarc_requests')||'[]');
+      arr = arr.filter(x=>x.id!==id); localStorage.setItem('gamesarc_requests', JSON.stringify(arr)); loadRequests();
+    }
+
+    function loadSuggestions(){
+      const arr = JSON.parse(localStorage.getItem('gamesarc_suggestions')||'[]');
+      const wrap = document.getElementById('suggestionsList'); wrap.innerHTML='';
+      arr.forEach(s=>{
+        const d=document.createElement('div'); d.style.padding='8px'; d.style.borderBottom='1px solid rgba(255,255,255,0.02)';
+        d.innerHTML = `<div style="color:var(--muted)">${s.by} — ${new Date(s.ts).toLocaleString()}</div><div>${s.text}</div>`;
+        wrap.appendChild(d);
+      });
+    }
+  </script>
+</body>
+</html>
