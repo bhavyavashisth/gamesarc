@@ -21,6 +21,8 @@
   <div id="gameLogoContainer"><img id="gameLogo" src="" alt="Game Logo"></div>
   <h1 id="gameTitle"></h1>
   <div class="price" id="gamePrice"></div>
+  <button id="downloadBtn" style="padding:10px 20px; background:#7c5cff; border:none; color:#fff; border-radius:6px; cursor:pointer; margin-bottom:20px;">
+    Download
 
   <h3>Minimum Specs</h3>
   <div class="specs" id="minSpecs"></div>
@@ -69,6 +71,22 @@
       const img = document.createElement('img');
       img.src = url;
       shotsDiv.appendChild(img);
+      document.getElementById('downloadBtn').addEventListener('click', function() {
+  if(!game) return alert('Game missing');
+  
+  if(game.locked){
+    const current = read('gamesarc_currentUser');
+    if(!current) return alert('This game requires membership. Please login and buy premium.');
+    
+    const users = read('gamesarc_users', []);
+    const me = users.find(u=>u.username===current);
+    if(!me || !me.isPremium) return alert('This is a members-only game. Buy membership to download.');
+  }
+  
+  // simulate download
+  alert('Starting download for ' + game.title + ' (simulated).');
+});
+
     });
   }
 </script>
