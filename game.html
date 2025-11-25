@@ -62,35 +62,33 @@
   if(!game){
     document.body.innerHTML = "<h2 style='text-align:center;margin-top:40px'>Game not found</h2>";
   } else {
-    document.getElementById('gameLogo').src = game.logo || game.cover;
-    document.getElementById('gameTitle').innerText = game.title;
-    document.getElementById('gamePrice').innerText = game.price ? ('₹'+game.price) : 'Free';
-    document.getElementById('minSpecs').innerText = game.minSpecs || 'N/A';
-    document.getElementById('recSpecs').innerText = game.recSpecs || 'N/A';
-
-    const shotsDiv = document.getElementById('screenshots');
-    (game.screenshots||[]).forEach(url=>{
-      const img = document.createElement('img');
-      img.src = url;
-      shotsDiv.appendChild(img);
-      document.getElementById('downloadBtn').addEventListener('click', function() {
+    document.getElementById('downloadBtn').addEventListener('click', function() {
   if(!game) return alert('Game missing');
-  
+
   if(game.locked){
     const current = read('gamesarc_currentUser');
     if(!current) return alert('This game requires membership. Please login and buy premium.');
-    
+
     const users = read('gamesarc_users', []);
     const me = users.find(u=>u.username===current);
     if(!me || !me.isPremium) return alert('This is a members-only game. Buy membership to download.');
   }
-  
-  // simulate download
-  alert('Starting download for ' + game.title + ' (simulated).');
+
+  if(!game.downloadLink) return alert('Download link not available.');
+
+  // Trigger direct download
+  const a = document.createElement('a');
+  a.href = game.downloadLink;
+  a.download = ''; // optional: leave blank to use original filename
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 });
 
-    });
-  }
+
+
+    };
+  
 </script>
 
 </body>
