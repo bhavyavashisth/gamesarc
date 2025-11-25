@@ -1,0 +1,16 @@
+renderGrid('mac'); // This will render all mac games
+const games = read('gamesarc_games', {}).mac || [];
+const intelGames = games.filter(g => g.cpuType === 'Intel');
+renderGrid(intelGames);
+<body>
+  <!-- Navigation Bar -->
+  <nav style="text-align:center; margin:20px 0;">
+    <a href="pc.html" style="margin:0 10px; color:#7c5cff;">PC</a>
+    <a href="mac-intel.html" style="margin:0 10px; color:#7c5cff;">Mac Intel</a>
+    <a href="mac-arm.html" style="margin:0 10px; color:#7c5cff;">Mac ARM</a>
+    <a href="ppsspp.html" style="margin:0 10px; color:#7c5cff;">PPSSPP</a>
+  </nav>
+
+  <!-- Game grid container -->
+  <div class="container" id="gameGrid"></div>
+</body>
