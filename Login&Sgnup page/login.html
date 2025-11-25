@@ -60,26 +60,38 @@
 </div>
 
 <script>
-  const read = (key,fallback)=>{try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
-  const write = (key,val)=>{localStorage.setItem(key,JSON.stringify(val))}
+  // 1️⃣ localStorage helper functions
+  const read = (key,fallback)=>{
+    try{
+      const v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : fallback;
+    } catch(e){
+      return fallback;
+    }
+  }
 
-  // login logic
+  const write = (key,val)=>{
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+
+  // 2️⃣ login logic
   document.getElementById('loginBtn').addEventListener('click', ()=>{
     const u = document.getElementById('loginUsername').value.trim();
     const p = document.getElementById('loginPassword').value.trim();
-    const users = read('gamesarc_users',[]);
+    const users = read('gamesarc_users', []);
     const user = users.find(x=>x.username===u && x.pass===p);
     if(user){
       write('gamesarc_currentUser', u);
       alert('Logged in as '+u);
-      window.location.href = 'index.html'; // redirect to main page
+      window.location.href = 'index.html';
     } else alert('Invalid username or password');
   });
 
-  // redirect to signup page
+  // open signup page
   document.getElementById('openSignup').addEventListener('click', ()=>{
     window.location.href = 'signup.html';
   });
 </script>
+
 </body>
 </html>
