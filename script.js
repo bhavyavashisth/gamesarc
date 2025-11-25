@@ -220,6 +220,21 @@ el('chatSend').addEventListener('click', ()=>{
   // simulated admin reply
   setTimeout(()=>{ const msgs2 = read('gamesarc_msgs',[]); msgs2.push({from:'admin', text:'Thanks — we will reply soon.', ts:Date.now()}); write('gamesarc_msgs', msgs2); renderMessages(); }, 1200);
 });
+document.getElementById("login-btn").addEventListener("click", () => {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    const users = read("gamesarc_users", []);
+
+    const found = users.find(u => u.username === user && u.pass === pass);
+
+    if (found) {
+        alert("Login Successful!");
+        window.location.href = "index.html";
+    } else {
+        alert("Invalid Credentials");
+    }
+});
 
 // login & signup modal logic
 const authModal = el('authModal'), loginBtn = el('loginBtn'), closeAuth = el('closeAuth');
@@ -267,6 +282,15 @@ function updateUserUI(){
     loginBtn.innerText = 'Login';
   }
 }
+function read(key, fallback) {
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : fallback;
+}
+
+function write(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
 
 // initial UI update
 updateUserUI();
