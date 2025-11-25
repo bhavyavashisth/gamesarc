@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Detail</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#0b0b10; color:#fff; margin:0; padding:0; }
+  .container { max-width:800px; margin:40px auto; padding:20px; }
+  img { max-width:100%; border-radius:8px; }
+  h1 { font-size:28px; margin-bottom:10px; }
+  .price { font-size:18px; color:#7c5cff; margin-bottom:10px; }
+  .specs { background:#1a1a2e; padding:15px; border-radius:8px; margin-bottom:20px; white-space:pre-line; }
+  .screenshots { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .screenshots img { width:100%; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="gameLogoContainer"><img id="gameLogo" src="" alt="Game Logo"></div>
+  <h1 id="gameTitle"></h1>
+  <div class="price" id="gamePrice"></div>
+
+  <h3>Minimum Specs</h3>
+  <div class="specs" id="minSpecs"></div>
+
+  <h3>Recommended Specs</h3>
+  <div class="specs" id="recSpecs"></div>
+
+  <h3>Screenshots</h3>
+  <div class="screenshots" id="screenshots"></div>
+</div>
+
+<script>
+  // Helper: read from localStorage
+  function read(key,fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
+  
+  function getQueryParam(name){
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+
+  function findGameById(id){
+    const games = read('gamesarc_games', {});
+    for(const sec in games){
+      for(const g of games[sec]){
+        if(g.id===id) return g;
+      }
+    }
+    return null;
+  }
+
+  // Render
+  const gameId = getQueryParam('id');
+  const game = findGameById(gameId);
+
+  if(!game){
+    document.body.innerHTML = "<h2 style='text-align:center;margin-top:40px'>Game not found</h2>";
+  } else {
+    document.getElementById('gameLogo').src = game.logo || game.cover;
+    document.getElementById('gameTitle').innerText = game.title;
+    document.getElementById('gamePrice').innerText = game.price ? ('₹'+game.price) : 'Free';
+    document.getElementById('minSpecs').innerText = game.minSpecs || 'N/A';
+    document.getElementById('recSpecs').innerText = game.recSpecs || 'N/A';
+
+    const shotsDiv = document.getElementById('screenshots');
+    (game.screenshots||[]).forEach(url=>{
+      const img = document.createElement('img');
+      img.src = url;
+      shotsDiv.appendChild(img);
+    });
+  }
+</script>
+
+</body>
+</html>

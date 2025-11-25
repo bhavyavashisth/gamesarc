@@ -1,13 +1,3 @@
-/* GamesArc client-side logic
-   - Data stored in localStorage:
-     - users: array of { name, username, pass, isPremium }
-     - currentUser: username
-     - games: object sections => arrays of games
-     - requests: array of {title, by}
-     - suggestions: array of {text, by}
-     - messages: array of {from, text, ts}
-*/
-
 // Helper: localStorage wrappers
 function read(key, fallback){ try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){return fallback} }
 function write(key,val){ localStorage.setItem(key, JSON.stringify(val)) }
@@ -91,7 +81,7 @@ function renderGrid(){
             <div class="price">${g.price ? '₹'+g.price : 'Free'}</div>
           </div>
           <div class="actions">
-            <button class="btn" onclick="viewDetails('${g.id}')">Details</button>
+            <button class="btn" onclick="window.location.href='game.html?id=${g.id}'">Details</button>
             <button class="btn-download" onclick="tryDownload(event,'${g.id}')">${g.locked ? 'Locked' : 'Download'}</button>
           </div>
         </div>
