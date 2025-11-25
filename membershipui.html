@@ -229,3 +229,62 @@
 
 </body>
 </html>
+
+<!-- Added: Login + Payment + Plan Ownership Logic -->
+<script>
+// LocalStorage helpers
+const read=(k,f)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+// ⚡ Fix Login Button Not Working
+// This creates a working login popup + authentication
+function initLogin(){
+  const loginBtn=document.getElementById('loginBtn');
+  const loginModal=document.getElementById('loginModal');
+  const closeLogin=document.getElementById('closeLogin');
+  const loginSubmit=document.getElementById('loginSubmit');
+
+  if(!loginBtn) return; // avoid crash
+
+  loginBtn.onclick=()=>{
+    loginModal.style.display='flex';
+  }
+  closeLogin.onclick=()=>{
+    loginModal.style.display='none';
+  }
+  loginSubmit.onclick=()=>{
+    const user=loginUser.value.trim();
+    const pass=loginPass.value.trim();
+    const users=read('arc_users',[]);
+    const me=users.find(u=>u.user===user && u.pass===pass);
+    if(!me){ alert('Invalid username or password'); return }
+    write('arc_current', me.user);
+    alert('Logged in as '+me.user);
+    loginModal.style.display='none';
+  }
+}
+
+// ⚡ Membership Plans Data
+const plans=[
+  {id:'free', name:'Arc Rookie', price:0, perks:['Basic access','Limited downloads','No support']},
+  {id:'pro', name:'Arc Pro Pass', price:150, perks:['Access to PC/Mac games','Faster downloads','Community support']},
+  {id:'elite', name:'Arc Elite', price:250, perks:['All game sections','High-speed servers','Priority support']},
+  {id:'premium', name:'Arc Premium', price:300, perks:['Everything unlocked','Max speed','Exclusive Content']}
+];
+
+// ⚡ Payment button logic (Simulated)
+function pay(planId){
+  const user=read('arc_current');
+  if(!user){ alert('Please login first.'); return }
+  let users=read('arc_users',[]);
+  const me=users.find(u=>u.user===user);
+  if(!me){ alert('Error: user not found'); return }
+  me.plan=planId;
+  write('arc_users',users);
+  alert('Payment successful! Plan activated: '+planId);
+}
+
+// Call init
+initLogin();
+</script>
+
