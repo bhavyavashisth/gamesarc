@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0b0b10;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin:0;
+  }
+  .signup-container {
+    background:#1a1a2e;
+    padding: 40px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+  }
+  h1 { margin-bottom: 30px; }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius:6px;
+    border:none;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top:10px;
+    border:none;
+    border-radius:6px;
+    background:#7c5cff;
+    color:#fff;
+    cursor:pointer;
+  }
+  .error { color:red; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="signup-container">
+  <h1>Sign Up</h1>
+  <input type="text" id="signupUsername" placeholder="Username">
+  <input type="email" id="signupEmail" placeholder="Email">
+  <input type="password" id="signupPassword" placeholder="Password">
+  <button id="signupBtn">Create Account</button>
+  <div class="error" id="signupError"></div>
+</div>
+
+<script>
+  const read = (key,fallback)=>{try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch(e){return fallback}}
+  const write = (key,val)=>{localStorage.setItem(key,JSON.stringify(val))}
+
+  document.getElementById('signupBtn').addEventListener('click', ()=>{
+    const username = document.getElementById('signupUsername').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const pass = document.getElementById('signupPassword').value.trim();
+    const errorDiv = document.getElementById('signupError');
+
+    // validate inputs
+    if(!username || !email || !pass){ errorDiv.innerText = 'All fields are required'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorDiv.innerText = 'Invalid email address'; return; }
+
+    const users = read('gamesarc_users', []);
+    if(users.find(u=>u.username===username)){ errorDiv.innerText = 'Username already exists'; return; }
+
+    users.push({name:username, username, email, pass, isPremium:false, isAdmin:false});
+    write('gamesarc_users', users);
+    write('gamesarc_currentUser', username);
+    alert('Account created successfully!');
+    window.location.href = 'index.html'; // redirect to main page
+  });
+</script>
+</body>
+</html>
