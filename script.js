@@ -24,14 +24,14 @@ if(!read('gamesarc_games')) {
       }
     ],
     mac: [
-      { id:'ghost-tsuma', title:'Ghost of Tsushima', price:399, cover:'https://i.imgur.com/3XH3QeV.jpeg', logo:'https://i.imgur.com/3XH3QeV.jpeg', screenshots:[
+      { id:'ghost-Tsushima', title:'Ghost of Tsushima', price:399, cover:'https://i.imgur.com/3XH3QeV.jpeg', logo:'https://i.imgur.com/3XH3QeV.jpeg', screenshots:[
           'https://i.imgur.com/3XH3QeV.jpeg'
         ],
         minSpecs:"macOS 11\nCPU: Apple Intel i5\nRAM:8GB\nGPU: Integrated\nDisk:50GB", 
         recSpecs:"macOS 12\nCPU: Apple M1\nRAM:16GB\nGPU: M1 Max\nDisk:50GB",
         section:'mac', locked:true
       },
-      { id:'ghost-yeathe', title:'Ghost of Yōtei', price:349, cover:'https://i.imgur.com/7Y1vQ0d.jpeg', logo:'https://i.imgur.com/7Y1vQ0d.jpeg', screenshots:[
+      { id:'ghost-Yōtei', title:'Ghost of Yōtei', price:349, cover:'https://i.imgur.com/7Y1vQ0d.jpeg', logo:'https://i.imgur.com/7Y1vQ0d.jpeg', screenshots:[
           'https://i.imgur.com/7Y1vQ0d.jpeg'
         ], minSpecs:"TBD", recSpecs:"TBD", section:'mac', locked:true }
     ],
@@ -162,17 +162,6 @@ el('searchInput').addEventListener('input', (e)=>{
 el('sliderPrev').addEventListener('click', ()=> el('sliderTrack').scrollBy({left:-300, behavior:'smooth'}));
 el('sliderNext').addEventListener('click', ()=> el('sliderTrack').scrollBy({left:300, behavior:'smooth'}));
 
-// requests
-el('requestBtn').addEventListener('click', ()=>{
-  const title = el('requestTitle').value.trim();
-  const user = read('gamesarc_currentUser') || 'guest';
-  if(!title) return alert('Write a game name to request');
-  const requests = read('gamesarc_requests'); requests.unshift({id:uid(), title, by:user, ts:Date.now()}); write('gamesarc_requests', requests);
-  el('requestTitle').value = '';
-  animateButton(el('requestBtn'));
-  alert('Request sent — admin will review.');
-});
-
 // suggestion
 el('submitSuggestion').addEventListener('click', ()=>{
   const text = el('suggestionText').value.trim();
@@ -245,32 +234,6 @@ el('tabLogin').addEventListener('click', ()=> switchAuth('login'));
 el('tabSignup').addEventListener('click', ()=> switchAuth('signup'));
 function switchAuth(tab){ if(tab==='login'){ el('loginForm').classList.remove('hidden'); el('signupForm').classList.add('hidden'); el('tabLogin').classList.add('active'); el('tabSignup').classList.remove('active'); } else { el('loginForm').classList.add('hidden'); el('signupForm').classList.remove('hidden'); el('tabLogin').classList.remove('active'); el('tabSignup').classList.add('active'); } }
 
-// perform signup
-el('doSignup').addEventListener('click', (ev)=>{
-  ev.preventDefault();
-  const name = el('signupName').value.trim(), username=el('signupUser').value.trim(), pass=el('signupPass').value.trim();
-  if(!name||!username||!pass) return alert('Fill all fields');
-  const users = read('gamesarc_users',[]);
-  if(users.find(u=>u.username===username)) return alert('Username taken');
-  users.push({name, username, pass, isPremium:false, isAdmin:false});
-  write('gamesarc_users', users);
-  write('gamesarc_currentUser', username);
-  authModal.setAttribute('aria-hidden','true'); alert('Signed up and logged in as ' + username);
-  updateUserUI();
-});
-
-// perform login
-el('doLogin').addEventListener('click', (ev)=>{
-  ev.preventDefault();
-  const username=el('loginUser').value.trim(), pass=el('loginPass').value.trim();
-  const users = read('gamesarc_users',[]);
-  const me = users.find(u=>u.username===username && u.pass===pass);
-  if(!me) return alert('Invalid credentials');
-  write('gamesarc_currentUser', username);
-  authModal.setAttribute('aria-hidden','true');
-  alert('Logged in as ' + username);
-  updateUserUI();
-});
 
 function updateUserUI(){
   const user = read('gamesarc_currentUser');
