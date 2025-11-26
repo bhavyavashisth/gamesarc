@@ -1,6 +1,54 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- ===== Cyberpunk Login / Signup Modal (paste inside <body>) ===== -->
+<button id="loginBtn" class="nav-login-btn">Login</button>
+
+<div id="authModal" aria-hidden="true" class="cp-modal">
+  <div class="cp-panel">
+    <button id="closeAuth" class="cp-close" aria-label="close">✕</button>
+
+    <div class="cp-header">
+      <div class="cp-logo">G<span>Arc</span></div>
+      <div class="tabs">
+        <button id="tabLogin" class="tab active">Login</button>
+        <button id="tabSignup" class="tab">Sign up</button>
+      </div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="cp-form">
+      <label class="cp-label">Username</label>
+      <input id="loginUsername" class="cp-input" type="text" autocomplete="username" required />
+      <label class="cp-label">Password</label>
+      <input id="loginPassword" class="cp-input" type="password" autocomplete="current-password" required />
+      <div class="cp-actions">
+        <button type="submit" class="cp-btn cp-btn-primary" id="login-submit">Login</button>
+        <button type="button" class="cp-btn" id="forgotPass">Forgot?</button>
+      </div>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" class="cp-form hidden">
+      <label class="cp-label">Username</label>
+      <input id="signupUsername" class="cp-input" type="text" required />
+      <label class="cp-label">Email</label>
+      <input id="signupEmail" class="cp-input" type="email" required />
+      <label class="cp-label">Password</label>
+      <input id="signupPassword" class="cp-input" type="password" required />
+      <div class="cp-actions">
+        <button type="submit" class="cp-btn cp-btn-primary" id="signup-submit">Create Account</button>
+      </div>
+      <div id="signupError" class="cp-error" aria-live="polite"></div>
+    </form>
+
+    <div class="cp-foot">
+      <div class="cp-tip">Secure · Cyber UI · Gamers.in</div>
+    </div>
+  </div>
+</div>
+<!-- ===== end modal ===== -->
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GamesArc — Play the best games</title>

@@ -262,3 +262,115 @@ renderMessages();
 el('year').innerText = (new Date()).getFullYear();
 
 // Admin hint: allow opening admin.html if admin user exists (admin created in seed)
+// localStorage helpers (single definition)
+function read(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function write(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+function el(id){ return document.getElementById(id); }
+
+// --- ensure users array exists (seed admin)
+if(!read('gamesarc_users', null)){
+  write('gamesarc_users', [{ name:'Admin', username:'admin', pass:'1181', isPremium:true, isAdmin:true }]);
+}
+
+// UI elements
+const tabLogin = el('tabLogin');
+const tabSignup = el('tabSignup');
+const loginForm = el('loginForm');
+const signupForm = el('signupForm');
+const loginUsername = el('loginUsername');
+const loginPassword = el('loginPassword');
+const signupUsername = el('signupUsername');
+const signupEmail = el('signupEmail');
+const signupPassword = el('signupPassword');
+const signupError = el('signupError');
+
+// Open modal
+if(loginBtn) loginBtn.addEventListener('click', ()=> authModal.setAttribute('aria-hidden','false'));
+// Close modal
+if(closeAuth) closeAuth.addEventListener('click', ()=> authModal.setAttribute('aria-hidden','true'));
+
+// Tab switch
+function switchAuth(tab){
+  if(tab === 'login'){
+    loginForm.classList.remove('hidden'); signupForm.classList.add('hidden');
+    tabLogin.classList.add('active'); tabSignup.classList.remove('active');
+  } else {
+    loginForm.classList.add('hidden'); signupForm.classList.remove('hidden');
+    tabLogin.classList.remove('active'); tabSignup.classList.add('active');
+  }
+}
+if(tabLogin) tabLogin.addEventListener('click', ()=> switchAuth('login'));
+if(tabSignup) tabSignup.addEventListener('click', ()=> switchAuth('signup'));
+
+// Login submit handler
+loginForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  const u = loginUsername.value.trim();
+  const p = loginPassword.value.trim();
+  const users = read('gamesarc_users', []);
+  const found = users.find(x => x.username === u && x.pass === p);
+  if(!found){
+    alert('Invalid username or password');
+    return;
+  }
+  // store logged-in username (simple)
+  write('gamesarc_currentUser', found.username);
+  // close modal and update UI
+  authModal.setAttribute('aria-hidden','true');
+  alert('Welcome back, ' + (found.name || found.username) + '!');
+  // redirect to your homepage; change filename if needed
+  window.location.href = 'index.html';
+});
+
+// Signup submit handler
+signupForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  signupError.textContent = '';
+  const username = signupUsername.value.trim();
+  const email = signupEmail.value.trim();
+  const pass = signupPassword.value.trim();
+  if(!username || !email || !pass){ signupError.textContent = 'All fields are required'; return; }
+  // email quick regex
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ signupError.textContent = 'Enter a valid email'; return; }
+  const users = read('gamesarc_users', []);
+  if(users.find(u=>u.username === username)){ signupError.textContent = 'Username already taken'; return; }
+  users.push({ name: username, username, email, pass, isPremium:false, isAdmin:false });
+  write('gamesarc_users', users);
+  write('gamesarc_currentUser', username);
+  alert('Account created — logged in as ' + username);
+  authModal.setAttribute('aria-hidden','true');
+  // redirect to homepage
+  window.location.href = 'index.html';
+});
+
+// Update navbar/login text if you want to show username
+function updateUserUI(){
+  try{
+    const cur = read('gamesarc_currentUser', null);
+    if(cur){
+      loginBtn.textContent = cur;
+      loginBtn.classList.add('outline');
+    } else {
+      loginBtn.textContent = 'Login';
+    }
+  }catch(e){}
+}
+updateUserUI();
+
+/* Optional: logout button support (if you have an element with id 'logoutBtn') */
+const logoutBtn = el('logoutBtn');
+if(logoutBtn){
+  logoutBtn.addEventListener('click', ()=>{
+    localStorage.removeItem('gamesarc_currentUser');
+    updateUserUI();
+    alert('Logged out');
+    window.location.href = 'index.html';
+  });
+}
+
+/* Utility: if some pages had direct links to login.html, stop they redirecting to 404:
+   If you have any <a href="login.html"> replace them with <button id="loginBtn"> or change href to "#" 
+   This script cannot find and edit all anchors automatically on filesystem, so manually update files. */
+
