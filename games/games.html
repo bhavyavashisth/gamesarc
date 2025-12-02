@@ -1,0 +1,234 @@
+<!-- gamesarc/games.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Games - GamesArc</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .platform-nav {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+        
+        .platform-btn {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .platform-btn:hover,
+        .platform-btn.active {
+            background: var(--primary-purple);
+            transform: translateY(-2px);
+        }
+        
+        .games-section {
+            display: none;
+        }
+        
+        .games-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="membership.html" class="nav-link">Membership</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1 class="hero-title">🎮 PC Games</h1>
+        <p class="hero-subtitle">Download the best PC games for free</p>
+        
+        <!-- Platform Navigation -->
+        <div class="platform-nav">
+            <a href="#pc" class="platform-btn active" onclick="showSection('pc')">
+                <i class="fas fa-desktop"></i> PC Games
+            </a>
+            <a href="#mac" class="platform-btn" onclick="showSection('mac')">
+                <i class="fab fa-apple"></i> Mac Games
+            </a>
+            <a href="#mobile" class="platform-btn" onclick="showSection('mobile')">
+                <i class="fas fa-mobile-alt"></i> Mobile Games
+            </a>
+            <a href="#console" class="platform-btn" onclick="showSection('console')">
+                <i class="fas fa-tv"></i> Console Games
+            </a>
+        </div>
+        
+        <!-- PC Games Section -->
+        <section id="pc-section" class="games-section active">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin: 2rem 0;">
+                <i class="fas fa-desktop"></i> PC Games Collection
+            </h2>
+            
+            <div class="games-grid">
+                <!-- GTA V Card -->
+                <div class="game-card">
+                    <div style="height: 200px; background: linear-gradient(135deg, #1e40af, #0f172a); 
+                                display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 4rem; font-weight: bold; color: white;">GTA V</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Grand Theft Auto V</h3>
+                        <p class="game-description">
+                            The biggest, most dynamic and most diverse open world ever created.
+                        </p>
+                        
+                        <div class="platform-badges">
+                            <span class="platform-badge">PC</span>
+                            <span class="platform-badge" style="background: #10B981;">Action</span>
+                            <span class="platform-badge" style="background: #F59E0B;">Open World</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
+                            <div style="color: #8B5CF6; font-weight: bold;">
+                                <i class="fas fa-star"></i> 4.9/5
+                            </div>
+                            <div style="color: #94A3B8;">
+                                <i class="fas fa-download"></i> 95.2M
+                            </div>
+                        </div>
+                        
+                        <a href="games/gta-v.html" class="download-btn">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Elden Ring Card -->
+                <div class="game-card">
+                    <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #0f172a); 
+                                display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 4rem; font-weight: bold; color: gold;">ELDEN RING</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Elden Ring</h3>
+                        <p class="game-description">
+                            Rise, Tarnished, and be guided by grace to become an Elden Lord.
+                        </p>
+                        
+                        <div class="platform-badges">
+                            <span class="platform-badge">PC</span>
+                            <span class="platform-badge" style="background: #7C3AED;">RPG</span>
+                            <span class="platform-badge" style="background: #DC2626;">Souls-like</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
+                            <div style="color: #8B5CF6; font-weight: bold;">
+                                <i class="fas fa-star"></i> 4.8/5
+                            </div>
+                            <div style="color: #94A3B8;">
+                                <i class="fas fa-download"></i> 20.4M
+                            </div>
+                        </div>
+                        
+                        <a href="games/elden-ring.html" class="download-btn">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Sekiro Card -->
+                <div class="game-card">
+                    <div style="height: 200px; background: linear-gradient(135deg, #0f172a, #1e293b); 
+                                display: flex; align-items: center; justify-content: center;">
+                        <span style="font-size: 4rem; font-weight: bold; color: #fbbf24;">SEKIRO</span>
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Sekiro: Shadows Die Twice</h3>
+                        <p class="game-description">
+                            Carve your own clever path to vengeance in this award-winning adventure.
+                        </p>
+                        
+                        <div class="platform-badges">
+                            <span class="platform-badge">PC</span>
+                            <span class="platform-badge" style="background: #475569;">Action</span>
+                            <span class="platform-badge" style="background: #7C3AED;">Stealth</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
+                            <div style="color: #8B5CF6; font-weight: bold;">
+                                <i class="fas fa-star"></i> 4.7/5
+                            </div>
+                            <div style="color: #94A3B8;">
+                                <i class="fas fa-download"></i> 10.1M
+                            </div>
+                        </div>
+                        
+                        <a href="games/sekiro.html" class="download-btn">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Other sections (initially hidden) -->
+        <section id="mac-section" class="games-section">
+            <h2>Mac Games Coming Soon...</h2>
+        </section>
+        
+        <section id="mobile-section" class="games-section">
+            <h2>Mobile Games Coming Soon...</h2>
+        </section>
+        
+        <section id="console-section" class="games-section">
+            <h2>Console Games Coming Soon...</h2>
+        </section>
+    </main>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.games-section').forEach(section => {
+                section.classList.remove('active')
+            })
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                btn.classList.remove('active')
+            })
+            
+            // Show selected section
+            document.getElementById(`${sectionId}-section`).classList.add('active')
+            
+            // Add active class to clicked button
+            event.target.classList.add('active')
+        }
+        
+        // Set PC as default
+        showSection('pc')
+    </script>
+</body>
+</html>
