@@ -940,3 +940,136 @@
     // Rest of your JavaScript code...
     // Make sure all your other functions follow after this
 </script>
+<!-- gamesarc/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesArc - Download Games for All Platforms</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        
+        <nav class="nav-links">
+            <a href="games.html" class="nav-link">
+                <i class="fas fa-gamepad"></i> Games
+            </a>
+            <a href="membership.html" class="nav-link">
+                <i class="fas fa-crown"></i> Membership
+            </a>
+            <a href="contact.html" class="nav-link">
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+            <a href="login.html" class="login-btn">
+                <i class="fas fa-user"></i> Login
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">Discover Amazing Games</h1>
+            <p class="hero-subtitle">
+                Download free games for PC, Mac, Mobile, and Console. 
+                Join our community and vote for your favorites!
+            </p>
+            <a href="games.html" class="login-btn" style="display: inline-block; margin-top: 2rem;">
+                <i class="fas fa-rocket"></i> Explore Games
+            </a>
+        </section>
+
+        <!-- Featured Games -->
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin: 3rem 0 1.5rem;">
+            <i class="fas fa-star"></i> Featured Games
+        </h2>
+        
+        <div class="games-grid">
+            <!-- Game 1 -->
+            <div class="game-card">
+                <div style="height: 200px; background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue)); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-gamepad" style="font-size: 4rem; color: white;"></i>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Cyber Nexus</h3>
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                        Futuristic RPG with cyberpunk elements
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">PC</span>
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Mac</span>
+                    </div>
+                    <a href="games.html" class="login-btn" style="width: 100%; text-align: center;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="game-card">
+                <div style="height: 200px; background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple)); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-space-shuttle" style="font-size: 4rem; color: white;"></i>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Stellar Odyssey</h3>
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                        Space exploration with intense combat
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">PC</span>
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Mac ARM</span>
+                    </div>
+                    <a href="games.html" class="login-btn" style="width: 100%; text-align: center;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="game-card">
+                <div style="height: 200px; background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue)); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-dragon" style="font-size: 4rem; color: white;"></i>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Mythic Realms</h3>
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                        Fantasy MMORPG with epic quests
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">PC</span>
+                        <span class="platform-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;">Mobile</span>
+                    </div>
+                    <a href="games.html" class="login-btn" style="width: 100%; text-align: center;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color: var(--text-gray); margin-bottom: 1rem;">
+            &copy; 2024 GamesArc.xyz - All rights reserved
+        </p>
+        <div style="display: flex; gap: 2rem; justify-content: center;">
+            <a href="privacy.html" style="color: var(--text-gray); text-decoration: none;">Privacy Policy</a>
+            <a href="terms.html" style="color: var(--text-gray); text-decoration: none;">Terms of Service</a>
+            <a href="contact.html" style="color: var(--text-gray); text-decoration: none;">Contact Us</a>
+        </div>
+    </footer>
+
+    <script>
+        // Add any JavaScript needed for home page
+    </script>
+</body>
+</html>

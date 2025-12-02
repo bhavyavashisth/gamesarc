@@ -1,0 +1,210 @@
+<!-- gamesarc/membership.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership - GamesArc</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="games.html" class="nav-link">
+                <i class="fas fa-gamepad"></i> Games
+            </a>
+            <a href="login.html" class="nav-link">
+                <i class="fas fa-user"></i> Login
+            </a>
+            <a href="contact.html" class="nav-link">
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">Choose Your Membership</h1>
+            <p class="hero-subtitle">
+                Unlock premium features and support our platform
+            </p>
+        </section>
+        
+        <div class="membership-grid">
+            <!-- Free Plan -->
+            <div class="membership-card">
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Free</h3>
+                <div class="price">$0</div>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem;">Basic access forever</p>
+                
+                <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Basic game downloads
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Community voting
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Standard support
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Access to free games
+                    </li>
+                </ul>
+                
+                <button class="login-btn" style="width: 100%;" onclick="selectPlan('free')">
+                    Get Started
+                </button>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="membership-card premium">
+                <div style="position: absolute; top: 20px; right: -30px; background: var(--primary-purple); color: white; padding: 0.5rem 3rem; transform: rotate(45deg); font-size: 0.8rem; font-weight: 600;">
+                    POPULAR
+                </div>
+                
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Premium</h3>
+                <div class="price">$9.99<span style="font-size: 1rem; color: var(--text-gray);">/month</span></div>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem;">Best for regular gamers</p>
+                
+                <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        All Free features
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Premium game access
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Fast downloads
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Ad-free experience
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Early access to games
+                    </li>
+                </ul>
+                
+                <button class="login-btn" style="width: 100%; background: linear-gradient(45deg, var(--primary-purple), var(--dark-purple));" onclick="selectPlan('premium')">
+                    Go Premium
+                </button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="membership-card">
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Pro</h3>
+                <div class="price">$19.99<span style="font-size: 1rem; color: var(--text-gray);">/month</span></div>
+                <p style="color: var(--text-gray); margin-bottom: 1.5rem;">For power users & developers</p>
+                
+                <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        All Premium features
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Exclusive Pro games
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Developer tools
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        API access
+                    </li>
+                    <li style="padding: 0.5rem 0;">
+                        <i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i>
+                        Dedicated support
+                    </li>
+                </ul>
+                
+                <button class="login-btn" style="width: 100%;" onclick="selectPlan('pro')">
+                    Go Pro
+                </button>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <section style="margin-top: 4rem;">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin-bottom: 2rem;">
+                <i class="fas fa-question-circle"></i> Frequently Asked Questions
+            </h2>
+            
+            <div style="background: var(--card-bg); border-radius: 20px; padding: 2rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        Can I cancel anytime?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        Yes! You can cancel your subscription at any time. No long-term contracts.
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        What payment methods do you accept?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        We accept credit cards (Visa, MasterCard, American Express), PayPal, and cryptocurrencies.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        Is there a free trial?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        Yes! All premium plans come with a 7-day free trial.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color: var(--text-gray); margin-bottom: 1rem;">
+            &copy; 2024 GamesArc.xyz - All rights reserved
+        </p>
+    </footer>
+
+    <script>
+        function selectPlan(plan) {
+            const plans = {
+                'free': 'Free plan selected',
+                'premium': 'Premium plan selected - Redirecting to payment...',
+                'pro': 'Pro plan selected - Redirecting to payment...'
+            };
+            
+            alert(plans[plan]);
+            
+            // In real implementation, redirect to payment page
+            if (plan !== 'free') {
+                // window.location.href = 'payment.html?plan=' + plan;
+                alert('Payment integration coming soon!');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/games", "destination": "/games.html" },
+    { "source": "/membership", "destination": "/membership.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}

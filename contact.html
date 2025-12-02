@@ -1,0 +1,183 @@
+<!-- gamesarc/contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - GamesArc</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="games.html" class="nav-link">
+                <i class="fas fa-gamepad"></i> Games
+            </a>
+            <a href="membership.html" class="nav-link">
+                <i class="fas fa-crown"></i> Membership
+            </a>
+            <a href="login.html" class="nav-link">
+                <i class="fas fa-user"></i> Login
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section">
+            <h1 class="hero-title">Get In Touch</h1>
+            <p class="hero-subtitle">
+                We're here to help you with any questions or feedback
+            </p>
+        </section>
+        
+        <div class="contact-grid">
+            <!-- Email Support -->
+            <div class="contact-card">
+                <i class="fas fa-envelope" style="font-size: 3rem; color: var(--primary-purple); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-light); margin-bottom: 0.5rem;">Email Support</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                    For general inquiries and support
+                </p>
+                <p style="color: var(--light-blue); font-weight: 600; margin: 1rem 0; font-size: 1.1rem;">
+                    support@gamesarc.xyz
+                </p>
+                <a href="mailto:support@gamesarc.xyz" class="login-btn" style="width: 100%; text-align: center;">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </a>
+            </div>
+
+            <!-- Telegram -->
+            <div class="contact-card">
+                <i class="fab fa-telegram" style="font-size: 3rem; color: #0088cc; margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-light); margin-bottom: 0.5rem;">Telegram Community</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                    Join our active community for instant updates and support
+                </p>
+                <a href="https://t.me/gamesarc_community" 
+                   class="login-btn" 
+                   style="width: 100%; text-align: center; background: linear-gradient(45deg, #0088cc, #00acee);"
+                   target="_blank">
+                    <i class="fab fa-telegram"></i> Join Telegram
+                </a>
+            </div>
+
+            <!-- Live Chat -->
+            <div class="contact-card">
+                <i class="fas fa-comments" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-light); margin-bottom: 0.5rem;">Live Chat</h3>
+                <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                    Available 24/7 for premium members
+                </p>
+                <a href="membership.html" class="login-btn" style="width: 100%; text-align: center;">
+                    <i class="fas fa-crown"></i> Upgrade for Live Chat
+                </a>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div style="margin-top: 4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin-bottom: 2rem; text-align: center;">
+                <i class="fas fa-comment-dots"></i> Send Us a Message
+            </h2>
+            
+            <form id="contactForm" style="background: var(--card-bg); border-radius: 20px; padding: 2rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="text" placeholder="Your Name" class="form-input" required>
+                    <input type="email" placeholder="Your Email" class="form-input" required>
+                </div>
+                
+                <select class="form-input" required style="margin-bottom: 1rem;">
+                    <option value="">Select Department</option>
+                    <option value="support">Technical Support</option>
+                    <option value="games">Game Submission</option>
+                    <option value="business">Business Inquiry</option>
+                    <option value="other">Other</option>
+                </select>
+                
+                <textarea placeholder="Your Message" 
+                          class="form-input" 
+                          required 
+                          rows="5"
+                          style="margin-bottom: 1rem;"></textarea>
+                
+                <button type="submit" class="form-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+        
+        <!-- FAQ Section -->
+        <section style="margin-top: 4rem;">
+            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin-bottom: 2rem;">
+                <i class="fas fa-question-circle"></i> Frequently Asked Questions
+            </h2>
+            
+            <div style="background: var(--card-bg); border-radius: 20px; padding: 2rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        <i class="fas fa-question" style="color: var(--primary-purple);"></i>
+                        How long does it take to get a response?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        We typically respond within 24 hours for email inquiries. 
+                        Telegram support is usually instant during business hours.
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        <i class="fas fa-question" style="color: var(--primary-purple);"></i>
+                        Can I submit my game to GamesArc?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        Yes! We welcome game submissions from developers. 
+                        Please use the "Game Submission" option in the contact form.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--text-light); margin-bottom: 0.5rem;">
+                        <i class="fas fa-question" style="color: var(--primary-purple);"></i>
+                        Do you have a refund policy?
+                    </h4>
+                    <p style="color: var(--text-gray);">
+                        Yes, we offer a 30-day refund policy for all membership plans. 
+                        Contact support for assistance.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color: var(--text-gray); margin-bottom: 1rem;">
+            &copy; 2024 GamesArc.xyz - All rights reserved
+        </p>
+        <div style="display: flex; gap: 2rem; justify-content: center;">
+            <a href="privacy.html" style="color: var(--text-gray); text-decoration: none;">Privacy Policy</a>
+            <a href="terms.html" style="color: var(--text-gray); text-decoration: none;">Terms of Service</a>
+            <a href="contact.html" style="color: var(--text-gray); text-decoration: none;">Contact Us</a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
