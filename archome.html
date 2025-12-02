@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesArc - Download Games for All Platforms</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #8B5CF6;
+            --primary-blue: #3B82F6;
+            --dark-purple: #7C3AED;
+            --dark-blue: #1E40AF;
+            --deep-dark: #0F172A;
+            --light-purple: #A78BFA;
+            --light-blue: #60A5FA;
+            --neon-purple: #C084FC;
+            --neon-blue: #38BDF8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --sidebar-bg: rgba(15, 23, 42, 0.95);
+            --text-light: #F8FAFC;
+            --text-gray: #94A3B8;
+            --shadow-purple: rgba(139, 92, 246, 0.3);
+            --shadow-blue: rgba(59, 130, 246, 0.3);
+            --gradient-bg: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-purple), var(--primary-blue));
+            border-radius: 5px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px var(--shadow-purple);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(10px);
+            padding: 2rem 1rem;
+            position: fixed;
+            left: 0;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            border-right: 1px solid rgba(139, 92, 246, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            background: rgba(139, 92, 246, 0.1);
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-title:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sidebar-item {
+            display: block;
+            color: var(--text-gray);
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            color: var(--text-light);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(10px);
+        }
+
+        .nested-items {
+            padding-left: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nested-items.show {
+            max-height: 200px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.full-width {
+            margin-left: 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Game Card */
+        .game-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.4);
+            border-color: var(--primary-purple);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-image {
+            transform: scale(1.05);
+        }
+
+        .game-content {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .game-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Vote System */
+        .vote-system {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vote-btn {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--text-light);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vote-btn:hover {
+            background: var(--primary-purple);
+            transform: scale(1.1);
+        }
+
+        .vote-count {
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Platform Badges */
+        .platform-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--light-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* Download Button */
+        .download-btn {
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--shadow-purple);
+        }
+
+        /* Sections */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, var(--primary-purple), var(--primary-blue));
+            border-radius: 3px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .form-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--shadow-purple);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Membership Cards */
+        .membership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .membership-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 20px 40px var(--shadow-purple);
+        }
+
+        .membership-card.premium {
+            border: 2px solid var(--primary-purple);
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 1rem 0;
+        }
+
+        /* Contact Page */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 15px 30px var(--shadow-purple);
+        }
+
+        .telegram-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(45deg, #0088cc, #00acee);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex items-center gap-4">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-gamepad"></i> GamesArc
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <div class="relative">
+                <i class="fas fa-search absolute left-4" style="top: 50%; transform: translateY(-50%); color: var(--text-gray);"></i>
+                <input type="text" placeholder="Search games, genres, platforms..." class="search-input pl-12">
+            </div>
+        </div>
+
+        <button class="login-btn" id="loginBtn">
+            <i class="fas fa-user"></i> Login
+        </button>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar show" id="sidebar">
+        <!-- Platforms -->
+        <div class="sidebar-section">
+            <div class="sidebar-title" onclick="toggleSection('platforms')">
+                <span><i class="fas fa-gamepad"></i> PLATFORMS</span>
+                <i class="fas fa-chevron-down" id="platformsIcon"></i>
+            </div>
+            
+            <div id="platformsItems">
+                <a href="#" class="sidebar-item" onclick="showPage('pcGames')">
+                    <i class="fas fa-desktop"></i> PC
+                </a>
+                
+                <div class="sidebar-item" onclick="toggleNested('macItems')">
+                    <div class="flex justify-between items-center">
+                        <span><i class="fab fa-apple"></i> Mac</span>
+                        <i class="fas fa-chevron-down" id="macIcon"></i>
+                    </div>
+                </div>
+                
+                <div class="nested-items" id="macItems">
+                    <a href="#" class="sidebar-item pl-8" onclick="showPage('macIntelGames')">
+                        Intel Mac
+                    </a>
+                    <a href="#" class="sidebar-item pl-8" onclick="showPage('macArmGames')">
+                        ARM Mac
+                    </a>
+                </div>
+                
+                <a href="#" class="sidebar-item" onclick="showPage('mobileGames')">
+                    <i class="fas fa-mobile-alt"></i> Mobile
+                </a>
+                
+                <a href="#" class="sidebar-item" onclick="showPage('consoleGames')">
+                    <i class="fas fa-tv"></i> Console
+                </a>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="sidebar-section">
+            <div class="sidebar-title" onclick="toggleSection('categories')">
+                <span><i class="fas fa-trophy"></i> CATEGORIES</span>
+                <i class="fas fa-chevron-down" id="categoriesIcon"></i>
+            </div>
+            
+            <div id="categoriesItems" class="nested-items">
+                <a href="#" class="sidebar-item" onclick="showPage('actionGames')">Action</a>
+                <a href="#" class="sidebar-item" onclick="showPage('adventureGames')">Adventure</a>
+                <a href="#" class="sidebar-item" onclick="showPage('rpgGames')">RPG</a>
+                <a href="#" class="sidebar-item" onclick="showPage('strategyGames')">Strategy</a>
+                <a href="#" class="sidebar-item" onclick="showPage('sportsGames')">Sports</a>
+                <a href="#" class="sidebar-item" onclick="showPage('indieGames')">Indie</a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-item" onclick="showPage('membership')">
+                <i class="fas fa-crown"></i> Membership
+            </a>
+            
+            <a href="#" class="sidebar-item" onclick="showPage('topVoted')">
+                <i class="fas fa-star"></i> Top Voted
+            </a>
+            
+            <div class="sidebar-title" onclick="toggleSection('community')">
+                <span><i class="fas fa-users"></i> COMMUNITY</span>
+                <i class="fas fa-chevron-down" id="communityIcon"></i>
+            </div>
+            
+            <div id="communityItems" class="nested-items">
+                <a href="#" class="sidebar-item pl-4">Forums</a>
+                <a href="#" class="sidebar-item pl-4">Events</a>
+                <a href="#" class="sidebar-item pl-4">Leaderboards</a>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="sidebar-section">
+            <a href="#" class="sidebar-item" onclick="showPage('contact')">
+                <i class="fas fa-envelope"></i> Email Support
+            </a>
+            
+            <a href="#" class="sidebar-item" onclick="showPage('contact')">
+                <i class="fab fa-telegram"></i> Telegram
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Home Page -->
+        <div class="page active" id="homePage">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="hero-title">Discover Amazing Games</h1>
+                <p class="hero-subtitle">Download free games for PC, Mac, Mobile, and Console. Join our community and vote for your favorites!</p>
+                <button class="download-btn" onclick="showPage('membership')">
+                    <i class="fas fa-crown"></i> Get Premium Access
+                </button>
+            </section>
+
+            <!-- Game Suggestions -->
+            <h2 class="section-title">Suggested For You</h2>
+            <div class="games-grid" id="gameSuggestions">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+
+            <!-- Top Voted Games -->
+            <h2 class="section-title">🔥 Community Top Picks</h2>
+            <div class="games-grid" id="topVotedGames">
+                <!-- Top voted games will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Membership Page -->
+        <div class="page" id="membershipPage">
+            <h1 class="hero-title">Choose Your Membership</h1>
+            <p class="hero-subtitle">Unlock premium features and support our platform</p>
+            
+            <div class="membership-grid">
+                <div class="membership-card">
+                    <h3>Free</h3>
+                    <div class="price">$0</div>
+                    <p>Basic access forever</p>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Basic game downloads</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Community voting</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Standard support</li>
+                    </ul>
+                    <button class="download-btn">Get Started</button>
+                </div>
+
+                <div class="membership-card premium">
+                    <h3>Premium</h3>
+                    <div class="price">$9.99<span style="font-size: 1rem; color: var(--text-gray);">/month</span></div>
+                    <p>Best for regular gamers</p>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> All Free features</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Premium game access</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Fast downloads</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Ad-free experience</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Early access to games</li>
+                    </ul>
+                    <button class="download-btn">Go Premium</button>
+                </div>
+
+                <div class="membership-card">
+                    <h3>Pro</h3>
+                    <div class="price">$19.99<span style="font-size: 1rem; color: var(--text-gray);">/month</span></div>
+                    <p>For power users & developers</p>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: var(--text-gray);">
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> All Premium features</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Exclusive Pro games</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Developer tools</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> API access</li>
+                        <li style="padding: 0.5rem 0;"><i class="fas fa-check" style="color: var(--primary-purple); margin-right: 0.5rem;"></i> Dedicated support</li>
+                    </ul>
+                    <button class="download-btn">Go Pro</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page" id="contactPage">
+            <h1 class="hero-title">Get In Touch</h1>
+            <p class="hero-subtitle">We're here to help you with any questions</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fas fa-envelope" style="font-size: 3rem; color: var(--primary-purple); margin-bottom: 1rem;"></i>
+                    <h3>Email Support</h3>
+                    <p>For general inquiries and support</p>
+                    <p style="color: var(--light-blue); font-weight: 600; margin: 1rem 0;">support@gamesarc.xyz</p>
+                    <button class="download-btn" onclick="window.location.href='mailto:support@gamesarc.xyz'">
+                        <i class="fas fa-paper-plane"></i> Send Email
+                    </button>
+                </div>
+
+                <div class="contact-card">
+                    <i class="fab fa-telegram" style="font-size: 3rem; color: #0088cc; margin-bottom: 1rem;"></i>
+                    <h3>Telegram Community</h3>
+                    <p>Join our active community for instant updates and support</p>
+                    <a href="https://t.me/gamesarc_community" class="telegram-link" target="_blank">
+                        <i class="fab fa-telegram"></i> Join Telegram
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <i class="fas fa-comments" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
+                    <h3>Live Chat</h3>
+                    <p>Available 24/7 for premium members</p>
+                    <button class="download-btn" onclick="showPage('membership')">
+                        <i class="fas fa-crown"></i> Upgrade for Live Chat
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Specific Pages -->
+        <div class="page" id="pcGamesPage">
+            <h1 class="hero-title">PC Games</h1>
+            <p class="hero-subtitle">Download games for Windows platform</p>
+            <div class="games-grid" id="pcGamesGrid"></div>
+        </div>
+
+        <div class="page" id="macIntelGamesPage">
+            <h1 class="hero-title">Intel Mac Games</h1>
+            <p class="hero-subtitle">Games optimized for Intel-based Mac computers</p>
+            <div class="games-grid" id="macIntelGamesGrid"></div>
+        </div>
+
+        <div class="page" id="macArmGamesPage">
+            <h1 class="hero-title">ARM Mac Games</h1>
+            <p class="hero-subtitle">Games optimized for Apple Silicon (M1/M2/M3) Macs</p>
+            <div class="games-grid" id="macArmGamesGrid"></div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('loginModal')" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text-gray); font-size: 1.5rem; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Orbitron', sans-serif;">Welcome Back</h2>
+            
+            <form id="loginForm">
+                <input type="email" placeholder="Email" class="form-input" required>
+                <input type="password" placeholder="Password" class="form-input" required>
+                <button type="submit" class="form-btn">Login</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1rem; color: var(--text-gray);">
+                Don't have an account? 
+                <button onclick="showSignupModal()" style="background: none; border: none; color: var(--primary-purple); cursor: pointer; font-weight: 600;">Sign up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('signupModal')" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text-gray); font-size: 1.5rem; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Orbitron', sans-serif;">Create Account</h2>
+            
+            <form id="signupForm">
+                <input type="text" placeholder="Username" class="form-input" required>
+                <input type="email" placeholder="Email" class="form-input" required>
+                <input type="password" placeholder="Password" class="form-input" required>
+                <input type="password" placeholder="Confirm Password" class="form-input" required>
+                <button type="submit" class="form-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // Game Data - CORRECTED
+    const gamesData = [
+        {
+            id: 1,
+            title: "Cyber Nexus",
+            description: "Futuristic RPG with cyberpunk elements and open world exploration",
+            image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop",
+            platforms: ["PC", "Mac"],
+            votes: 1245,
+            downloads: 8900,
+            rating: 4.8,
+            tags: ["RPG", "Cyberpunk", "Open World"]
+        },
+        {
+            id: 2,
+            title: "Stellar Odyssey",
+            description: "Space exploration game with intense combat and trading",
+            image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=300&fit=crop",
+            platforms: ["PC", "Mac ARM", "Mac Intel"],
+            votes: 892,
+            downloads: 5600,
+            rating: 4.5,
+            tags: ["Space", "Simulation", "Adventure"]
+        },
+        {
+            id: 3,
+            title: "Mythic Realms",
+            description: "Fantasy MMORPG with epic quests and magical creatures",
+            image: "https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=400&h=300&fit=crop",
+            platforms: ["PC", "Mobile"],
+            votes: 2156,
+            downloads: 12000,
+            rating: 4.9,
+            tags: ["MMORPG", "Fantasy", "Multiplayer"]
+        },
+        {
+            id: 4,
+            title: "Neon Racing",
+            description: "High-speed racing in futuristic neon-lit cities",
+            image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop",
+            platforms: ["PC", "Console"],
+            votes: 756,
+            downloads: 4300,
+            rating: 4.3,
+            tags: ["Racing", "Arcade", "Multiplayer"]
+        },
+        {
+            id: 5,
+            title: "Pixel Dungeon",
+            description: "Retro-style dungeon crawler with roguelike elements",
+            image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&h=300&fit=crop",
+            platforms: ["PC", "Mac", "Mobile"],
+            votes: 1543,
+            downloads: 7800,
+            rating: 4.7,
+            tags: ["Retro", "Roguelike", "Adventure"]
+        },
+        {
+            id: 6,
+            title: "Ocean Explorer",
+            description: "Underwater adventure with deep sea mysteries",
+            image: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=400&h=300&fit=crop",
+            platforms: ["PC", "Mac ARM"],
+            votes: 623,
+            downloads: 3200,
+            rating: 4.4,
+            tags: ["Adventure", "Exploration", "Puzzle"]
+        }
+    ];
+
+    // Rest of your JavaScript code...
+    // Make sure all your other functions follow after this
+</script>
