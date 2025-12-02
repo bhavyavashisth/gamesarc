@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<!-- gamesarc/all-pc-games.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All PC Games - GamesArc</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-purple);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Search & Filters */
+        .filters-section {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+        
+        .filters-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            color: white;
+            min-width: 200px;
+            cursor: pointer;
+        }
+        
+        /* Game Counter */
+        .game-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+        }
+        
+        /* Games Grid Layout */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .game-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .game-content {
+            padding: 1.25rem;
+        }
+        
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        .game-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .game-rating {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--primary-purple);
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .game-downloads {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 3rem 0;
+        }
+        
+        .page-btn {
+            padding: 0.75rem 1.25rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+        
+        .page-btn.active {
+            background: var(--primary-purple);
+            border-color: var(--primary-purple);
+        }
+        
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-gray);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .filters-row {
+                flex-direction: column;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        <nav class="nav-links">
+            <a href="games.html" class="nav-link">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="games.html">Games</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>All PC Games</span>
+            </div>
+            
+            <h1 class="hero-title">All PC Games</h1>
+            <p class="hero-subtitle">
+                Browse our complete collection of PC games. Download for free!
+            </p>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="filters-section">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" 
+                       class="search-input" 
+                       id="searchInput"
+                       placeholder="Search PC games by name, genre, or feature..."
+                       onkeyup="searchGames()">
+            </div>
+            
+            <div class="filters-row">
+                <select class="filter-select" id="genreFilter" onchange="filterGames()">
+                    <option value="all">All Genres</option>
+                    <option value="action">Action</option>
+                    <option value="rpg">RPG</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="strategy">Strategy</option>
+                    <option value="sports">Sports</option>
+                    <option value="racing">Racing</option>
+                    <option value="simulation">Simulation</option>
+                </select>
+                
+                <select class="filter-select" id="sortFilter" onchange="sortGames()">
+                    <option value="popular">Sort by: Most Popular</option>
+                    <option value="newest">Sort by: Newest First</option>
+                    <option value="rating">Sort by: Highest Rating</option>
+                    <option value="name">Sort by: Name (A-Z)</option>
+                </select>
+                
+                <select class="filter-select" id="statusFilter" onchange="filterGames()">
+                    <option value="all">All Status</option>
+                    <option value="available">Available Now</option>
+                    <option value="soon">Coming Soon</option>
+                    <option value="premium">Premium Only</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Game Counter -->
+        <div class="game-counter">
+            <div>
+                <span id="gameCount">12</span> games found
+            </div>
+            <div style="color: var(--text-gray); font-size: 0.9rem;">
+                <i class="fas fa-info-circle"></i> Click any game for details & download
+            </div>
+        </div>
+
+        <!-- All Games Grid -->
+        <div class="games-grid" id="gamesGrid">
+            <!-- Games will be loaded here -->
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-gray);"></i>
+            <h3>No games found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be generated here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="color: var(--text-gray); margin-bottom: 1rem;">
+            &copy; 2024 GamesArc.xyz - Complete PC Games Collection
+        </p>
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+            <a href="privacy.html" style="color: var(--text-gray); text-decoration: none;">Privacy</a>
+            <a href="terms.html" style="color: var(--text-gray); text-decoration: none;">Terms</a>
+            <a href="contact.html" style="color: var(--text-gray); text-decoration: none;">Contact</a>
+            <a href="membership.html" style="color: var(--text-gray); text-decoration: none;">Premium</a>
+        </div>
+    </footer>
+
+    <script>
+        // PC Games Data
+        const pcGames = [
+            {
+                id: 'gta-v',
+                title: 'Grand Theft Auto V',
+                description: 'The biggest, most dynamic open world ever created. Explore Los Santos.',
+                image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=225&fit=crop',
+                rating: 4.9,
+                downloads: '95.2M',
+                genre: ['action', 'open-world'],
+                status: 'available',
+                year: 2015,
+                size: '95 GB',
+                link: 'games/gta-v.html'
+            },
+            {
+                id: 'elden-ring',
+                title: 'Elden Ring',
+                description: 'Rise, Tarnished, and be guided by grace to become an Elden Lord.',
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=225&fit=crop',
+                rating: 4.8,
+                downloads: '20.4M',
+                genre: ['rpg', 'action'],
+                status: 'available',
+                year: 2022,
+                size: '60 GB',
+                link: 'games/elden-ring.html'
+            },
+            {
+                id: 'sekiro',
+                title: 'Sekiro: Shadows Die Twice',
+                description: 'Carve your own clever path to vengeance in this award-winning adventure.',
+                image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&h=225&fit=crop',
+                rating: 4.7,
+                downloads: '10.1M',
+                genre: ['action', 'adventure'],
+                status: 'available',
+                year: 2019,
+                size: '25 GB',
+                link: 'games/sekiro.html'
+            },
+            {
+                id: 'cyberpunk',
+                title: 'Cyberpunk 2077',
+                description: 'Open-world, action-adventure RPG set in Night City.',
+                image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop',
+                rating: 4.6,
+                downloads: '70.5M',
+                genre: ['rpg', 'action'],
+                status: 'soon',
+                year: 2020,
+                size: '70 GB',
+                link: '#'
+            },
+            {
+                id: 'rdr2',
+                title: 'Red Dead Redemption 2',
+                description: 'Epic tale of life in America\'s unforgiving heartland.',
+                image: 'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=400&h=225&fit=crop',
+                rating: 4.9,
+                downloads: '45.8M',
+                genre: ['action', 'adventure'],
+                status: 'soon',
+                year: 2019,
+                size: '150 GB',
+                link: '#'
+            },
+            {
+                id: 'witcher3',
+                title: 'The Witcher 3: Wild Hunt',
+                description: 'As war rages, you take on your greatest hunt.',
+                image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=225&fit=crop',
+                rating: 4.9,
+                downloads: '50.2M',
+                genre: ['rpg', 'adventure'],
+                status: 'available',
+                year: 2015,
+                size: '50 GB',
+                link: '#'
+            },
+            {
+                id: 'minecraft',
+                title: 'Minecraft',
+                description: 'Build, explore, and survive in a blocky world.',
+                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=225&fit=crop',
+                rating: 4.8,
+                downloads: '238M',
+                genre: ['adventure', 'sandbox'],
+                status: 'available',
+                year: 2011,
+                size: '1 GB',
+                link: '#'
+            },
+            {
+                id: 'fortnite',
+                title: 'Fortnite',
+                description: 'Battle royale with building mechanics.',
+                image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=225&fit=crop',
+                rating: 4.5,
+                downloads: '350M',
+                genre: ['action', 'battle-royale'],
+                status: 'available',
+                year: 2017,
+                size: '30 GB',
+                link: '#'
+            },
+            {
+                id: 'valorant',
+                title: 'Valorant',
+                description: '5v5 tactical shooter with unique agents.',
+                image: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=225&fit=crop',
+                rating: 4.4,
+                downloads: '25M',
+                genre: ['action', 'shooter'],
+                status: 'available',
+                year: 2020,
+                size: '25 GB',
+                link: '#'
+            },
+            {
+                id: 'cs2',
+                title: 'Counter-Strike 2',
+                description: 'The next era of competitive FPS gaming.',
+                image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&h=225&fit=crop',
+                rating: 4.7,
+                downloads: '40M',
+                genre: ['action', 'shooter'],
+                status: 'available',
+                year: 2023,
+                size: '35 GB',
+                link: '#'
+            },
+            {
+                id: 'dota2',
+                title: 'Dota 2',
+                description: 'Most-played MOBA game in the world.',
+                image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop',
+                rating: 4.6,
+                downloads: '15M',
+                genre: ['strategy', 'moba'],
+                status: 'available',
+                year: 2013,
+                size: '15 GB',
+                link: '#'
+            },
+            {
+                id: 'fallout4',
+                title: 'Fallout 4',
+                description: 'Post-apocalyptic open-world RPG.',
+                image: 'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=400&h=225&fit=crop',
+                rating: 4.5,
+                downloads: '25M',
+                genre: ['rpg', 'open-world'],
+                status: 'available',
+                year: 2015,
+                size: '30 GB',
+                link: '#'
+            }
+        ]
+
+        // State
+        let currentPage = 1
+        const gamesPerPage = 9
+        let filteredGames = [...pcGames]
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGames()
+            renderPagination()
+            
+            // Track page view
+            if (window.GamesArcDB) {
+                GamesArcDB.trackPageView('all-pc-games')
+            }
+        })
+
+        // Render Games
+        function renderGames() {
+            const gamesGrid = document.getElementById('gamesGrid')
+            const noResults = document.getElementById('noResults')
+            const gameCount = document.getElementById('gameCount')
+            
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * gamesPerPage
+            const endIndex = startIndex + gamesPerPage
+            const pageGames = filteredGames.slice(startIndex, endIndex)
+            
+            if (pageGames.length === 0) {
+                gamesGrid.style.display = 'none'
+                noResults.style.display = 'block'
+                gameCount.textContent = '0'
+                return
+            }
+            
+            gamesGrid.style.display = 'grid'
+            noResults.style.display = 'none'
+            gameCount.textContent = filteredGames.length
+            
+            // Generate game cards
+            gamesGrid.innerHTML = pageGames.map(game => `
+                <div class="game-card">
+                    <img src="${game.image}" 
+                         alt="${game.title}" 
+                         class="game-image"
+                         onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=225&fit=crop'">
+                    
+                    <div class="game-content">
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-description">${game.description}</p>
+                        
+                        <div class="game-meta">
+                            <div class="game-rating">
+                                <i class="fas fa-star"></i> ${game.rating}/5
+                            </div>
+                            <div class="game-downloads">
+                                <i class="fas fa-download"></i> ${game.downloads}
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span style="color: var(--text-gray); font-size: 0.9rem;">
+                                ${game.year} • ${game.size}
+                            </span>
+                            <span style="color: ${getStatusColor(game.status)}; font-size: 0.9rem; font-weight: 600;">
+                                ${getStatusText(game.status)}
+                            </span>
+                        </div>
+                        
+                        ${game.link === '#' 
+                            ? `<button class="download-btn" onclick="showComingSoon()">
+                                  <i class="fas fa-clock"></i> Coming Soon
+                               </button>`
+                            : `<a href="${game.link}" class="download-btn">
+                                  <i class="fas fa-download"></i> Download Now
+                               </a>`
+                        }
+                    </div>
+                </div>
+            `).join('')
+        }
+
+        // Render Pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination')
+            const totalPages = Math.ceil(filteredGames.length / gamesPerPage)
+            
+            if (totalPages <= 1) {
+                pagination.style.display = 'none'
+                return
+            }
+            
+            pagination.style.display = 'flex'
+            
+            let paginationHTML = ''
+            
+            // Previous button
+            paginationHTML += `
+                <button class="page-btn ${currentPage === 1 ? 'disabled' : ''}" 
+                        ${currentPage === 1 ? 'disabled' : ''} 
+                        onclick="changePage(${currentPage - 1})">
+                    <i class="fas fa-chevron-left"></i>
+                </button>`
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <button class="page-btn ${i === currentPage ? 'active' : ''}" 
+                                onclick="changePage(${i})">
+                            ${i}
+                        </button>`
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += `<span style="color: var(--text-gray); padding: 0.75rem;">...</span>`
+                }
+            }
+            
+            // Next button
+            paginationHTML += `
+                <button class="page-btn ${currentPage === totalPages ? 'disabled' : ''}" 
+                        ${currentPage === totalPages ? 'disabled' : ''} 
+                        onclick="changePage(${currentPage + 1})">
+                    <i class="fas fa-chevron-right"></i>
+                </button>`
+            
+            pagination.innerHTML = paginationHTML
+        }
+
+        // Change Page
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(filteredGames.length / gamesPerPage)) return
+            currentPage = page
+            renderGames()
+            renderPagination()
+            window.scrollTo({ top: 600, behavior: 'smooth' })
+        }
+
+        // Search Games
+        function searchGames() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase()
+            const genreFilter = document.getElementById('genreFilter').value
+            const statusFilter = document.getElementById('statusFilter').value
+            
+            filteredGames = pcGames.filter(game => {
+                // Search in title and description
+                const matchesSearch = searchTerm === '' || 
+                    game.title.toLowerCase().includes(searchTerm) ||
+                    game.description.toLowerCase().includes(searchTerm)
+                
+                // Filter by genre
+                const matchesGenre = genreFilter === 'all' || 
+                    game.genre.includes(genreFilter)
+                
+                // Filter by status
+                const matchesStatus = statusFilter === 'all' || 
+                    game.status === statusFilter
+                
+                return matchesSearch && matchesGenre && matchesStatus
+            })
+            
+            currentPage = 1
+            renderGames()
+            renderPagination()
+        }
+
+        // Filter Games (called when filters change)
+        function filterGames() {
+            searchGames()
+        }
+
+        // Sort Games
+        function sortGames() {
+            const sortBy = document.getElementById('sortFilter').value
+            
+            switch(sortBy) {
+                case 'newest':
+                    filteredGames.sort((a, b) => b.year - a.year)
+                    break
+                case 'rating':
+                    filteredGames.sort((a, b) => b.rating - a.rating)
+                    break
+                case 'name':
+                    filteredGames.sort((a, b) => a.title.localeCompare(b.title))
+                    break
+                case 'popular':
+                default:
+                    // Convert downloads string to number for sorting
+                    filteredGames.sort((a, b) => {
+                        const aDownloads = parseFloat(a.downloads.replace('M', '')) || 0
+                        const bDownloads = parseFloat(b.downloads.replace('M', '')) || 0
+                        return bDownloads - aDownloads
+                    })
+                    break
+            }
+            
+            renderGames()
+        }
+
+        // Helper Functions
+        function getStatusColor(status) {
+            switch(status) {
+                case 'available': return '#10B981'
+                case 'soon': return '#F59E0B'
+                case 'premium': return '#8B5CF6'
+                default: return '#94A3B8'
+            }
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'available': return 'Available'
+                case 'soon': return 'Coming Soon'
+                case 'premium': return 'Premium'
+                default: return 'Unknown'
+            }
+        }
+
+        function showComingSoon() {
+            alert('This game will be available for download soon! Check back later.')
+        }
+    </script>
+</body>
+</html>
