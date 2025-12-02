@@ -579,5 +579,67 @@
             });
         });
     </script>
+    <!-- Add after your existing scripts -->
+<script src="gamesarc-db.js"></script>
+<script>
+    // Initialize and track page view
+    document.addEventListener('DOMContentLoaded', function() {
+        // Track this page view
+        GamesArcDB.trackPageView(window.location.pathname)
+        
+        // Show stats in console (for debugging)
+        const stats = GamesArcDB.getStats()
+        console.log('GamesArc Stats:', stats)
+        
+        // Update vote counts on page
+        updateVoteCounts()
+        updateDownloadCounts()
+    })
+    
+    // Function to update vote counts on page
+    function updateVoteCounts() {
+        document.querySelectorAll('.vote-count').forEach(element => {
+            const gameId = element.dataset.gameId
+            if (gameId) {
+                const game = GamesArcDB.getGame(gameId)
+                if (game) {
+                    element.textContent = game.totalVotes.toLocaleString()
+                }
+            }
+        })
+    }
+    
+    // Function to update download counts
+    function updateDownloadCounts() {
+        document.querySelectorAll('.download-count').forEach(element => {
+            const gameId = element.dataset.gameId
+            if (gameId) {
+                const game = GamesArcDB.getGame(gameId)
+                if (game) {
+                    element.textContent = game.totalDownloads.toLocaleString()
+                }
+            }
+        })
+    }
+</script>
+<!-- Game Card Example with data attributes -->
+<div class="game-card" data-game-id="cyber-nexus">
+    <!-- ... existing content ... -->
+    
+    <div class="vote-system">
+        <button class="vote-btn" onclick="voteUp('cyber-nexus')">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <span class="vote-count" data-game-id="cyber-nexus">1,245</span>
+        <button class="vote-btn" onclick="voteDown('cyber-nexus')">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+    
+    <button class="download-btn" onclick="downloadGame('cyber-nexus', 'Cyber Nexus')">
+        <i class="fas fa-download"></i> Download Now
+        <small class="download-count" data-game-id="cyber-nexus">(8,900)</small>
+    </button>
+</div>
 </body>
 </html>

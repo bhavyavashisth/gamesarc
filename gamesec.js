@@ -67,3 +67,94 @@ const gamesData = [  // Changed from { to [
         tags: ["Adventure", "Exploration", "Puzzle"]
     }
 ];  // Changed from } to ]
+// Voting functions
+function voteUp(gameId) {
+    const userId = getUserId()
+    const newTotal = GamesArcDB.voteGame(gameId, userId, 1)
+    
+    // Update display
+    document.querySelector(`[data-game-id="${gameId}"] .vote-count`).textContent = 
+        newTotal.toLocaleString()
+    
+    // Visual feedback
+    event.target.style.background = '#10B981'
+    setTimeout(() => {
+        event.target.style.background = ''
+    }, 300)
+}
+
+function voteDown(gameId) {
+    const userId = getUserId()
+    const newTotal = GamesArcDB.voteGame(gameId, userId, -1)
+    
+    // Update display
+    document.querySelector(`[data-game-id="${gameId}"] .vote-count`).textContent = 
+        newTotal.toLocaleString()
+    
+    // Visual feedback
+    event.target.style.background = '#EF4444'
+    setTimeout(() => {
+        event.target.style.background = ''
+    }, 300)
+}
+
+// Download function
+function downloadGame(gameId, gameName) {
+    const userId = getUserId()
+    const result = GamesArcDB.trackDownload(gameId, userId)
+    
+    // Update display
+    const countElement = document.querySelector(`[data-game-id="${gameId}"] .download-count`)
+    if (countElement) {
+        countElement.textContent = `(${result.totalDownloads.toLocaleString()})`
+    }
+    
+    // Show download dialog
+    if (confirm(`Download "${gameName}"? This will track your download.`)) {
+        alert(`Starting download... This is demo #${result.gameDownloads}`)
+        
+        // In real app, redirect to actual download
+        // window.location.href = `/download/${gameId}`
+    }
+}
+
+// Get user ID (creates if doesn't exist)
+function getUserId() {
+    let userId = localStorage.getItem('gamesarc_user_id')
+    
+    if (!userId) {
+        // Create new user ID
+        userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+        localStorage.setItem('gamesarc_user_id', userId)
+        
+        // Initialize user in database
+        GamesArcDB.getUser(userId)
+    }
+    
+    return userId
+}
+
+// Membership function
+function upgradeMembership(plan) {
+    const userId = getUserId()
+    const success = GamesArcDB.updateMembership(userId, plan)
+    
+    if (success) {
+        alert(`Upgraded to ${plan} membership!`)
+        // Refresh page or show premium features
+    }
+}
+
+// Admin function to view data
+function viewDatabase() {
+    const db = GamesArcDB.getDB()
+    console.log('Full Database:', db)
+    
+    const stats = GamesArcDB.getStats()
+    alert(`Stats:
+Games: ${stats.totalGames}
+Downloads: ${stats.totalDownloads.toLocaleString()}
+Votes: ${stats.totalVotes.toLocaleString()}
+Users: ${stats.totalUsers}
+Page Views: ${stats.pageViews}`)
+}

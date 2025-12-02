@@ -142,5 +142,48 @@
             showLogin();
         }
     </script>
+    <!-- Add after your existing scripts -->
+<script src="gamesarc-db.js"></script>
+<script>
+    // Initialize and track page view
+    document.addEventListener('DOMContentLoaded', function() {
+        // Track this page view
+        GamesArcDB.trackPageView(window.location.pathname)
+        
+        // Show stats in console (for debugging)
+        const stats = GamesArcDB.getStats()
+        console.log('GamesArc Stats:', stats)
+        
+        // Update vote counts on page
+        updateVoteCounts()
+        updateDownloadCounts()
+    })
+    
+    // Function to update vote counts on page
+    function updateVoteCounts() {
+        document.querySelectorAll('.vote-count').forEach(element => {
+            const gameId = element.dataset.gameId
+            if (gameId) {
+                const game = GamesArcDB.getGame(gameId)
+                if (game) {
+                    element.textContent = game.totalVotes.toLocaleString()
+                }
+            }
+        })
+    }
+    
+    // Function to update download counts
+    function updateDownloadCounts() {
+        document.querySelectorAll('.download-count').forEach(element => {
+            const gameId = element.dataset.gameId
+            if (gameId) {
+                const game = GamesArcDB.getGame(gameId)
+                if (game) {
+                    element.textContent = game.totalDownloads.toLocaleString()
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>
