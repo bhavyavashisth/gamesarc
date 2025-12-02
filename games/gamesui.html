@@ -1,234 +1,239 @@
-<!-- gamesarc/games.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Games - GamesArc</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .platform-nav {
-            display: flex;
-            gap: 1rem;
-            margin: 2rem 0;
-            padding: 1rem;
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            overflow-x: auto;
+<script>
+    // Game Modal System
+    function showGameModal(gameId) {
+        const games = {
+            'gta-v': {
+                title: 'Grand Theft Auto V',
+                description: 'The biggest, most dynamic and most diverse open world ever created.',
+                size: '95 GB',
+                requirements: 'Windows 10, Intel i5, 8GB RAM, GTX 1060',
+                downloads: '95.2M',
+                rating: '4.9/5'
+            },
+            'elden-ring': {
+                title: 'Elden Ring',
+                description: 'Rise, Tarnished, and be guided by grace to become an Elden Lord.',
+                size: '60 GB',
+                requirements: 'Windows 10, Intel i5, 12GB RAM, GTX 1060',
+                downloads: '20.4M',
+                rating: '4.8/5'
+            },
+            'sekiro': {
+                title: 'Sekiro: Shadows Die Twice',
+                description: 'Carve your own clever path to vengeance in this award-winning adventure.',
+                size: '25 GB',
+                requirements: 'Windows 7, Intel i3, 4GB RAM, GTX 760',
+                downloads: '10.1M',
+                rating: '4.7/5'
+            }
         }
         
-        .platform-btn {
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            color: var(--text-light);
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-block;
-        }
+        const game = games[gameId]
         
-        .platform-btn:hover,
-        .platform-btn.active {
-            background: var(--primary-purple);
-            transform: translateY(-2px);
-        }
-        
-        .games-section {
-            display: none;
-        }
-        
-        .games-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <a href="index.html" class="logo">
-            <i class="fas fa-gamepad"></i> GamesArc
-        </a>
-        <nav class="nav-links">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="membership.html" class="nav-link">Membership</a>
-            <a href="contact.html" class="nav-link">Contact</a>
-            <a href="login.html" class="login-btn">Login</a>
-        </nav>
-    </header>
-
-    <main class="main-content">
-        <h1 class="hero-title">🎮 PC Games</h1>
-        <p class="hero-subtitle">Download the best PC games for free</p>
-        
-        <!-- Platform Navigation -->
-        <div class="platform-nav">
-            <a href="#pc" class="platform-btn active" onclick="showSection('pc')">
-                <i class="fas fa-desktop"></i> PC Games
-            </a>
-            <a href="#mac" class="platform-btn" onclick="showSection('mac')">
-                <i class="fab fa-apple"></i> Mac Games
-            </a>
-            <a href="#mobile" class="platform-btn" onclick="showSection('mobile')">
-                <i class="fas fa-mobile-alt"></i> Mobile Games
-            </a>
-            <a href="#console" class="platform-btn" onclick="showSection('console')">
-                <i class="fas fa-tv"></i> Console Games
-            </a>
-        </div>
-        
-        <!-- PC Games Section -->
-        <section id="pc-section" class="games-section active">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; margin: 2rem 0;">
-                <i class="fas fa-desktop"></i> PC Games Collection
-            </h2>
-            
-            <div class="games-grid">
-                <!-- GTA V Card -->
-                <div class="game-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1e40af, #0f172a); 
-                                display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 4rem; font-weight: bold; color: white;">GTA V</span>
+        const modalHTML = `
+            <div class="modal" id="gameModal" style="display: flex;">
+                <div class="modal-content" style="max-width: 600px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="font-family: 'Orbitron', sans-serif; color: #8B5CF6;">
+                            <i class="fas fa-gamepad"></i> ${game.title}
+                        </h2>
+                        <button onclick="closeGameModal()" style="background: none; border: none; color: #94A3B8; font-size: 1.5rem; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div class="game-content">
-                        <h3 class="game-title">Grand Theft Auto V</h3>
-                        <p class="game-description">
-                            The biggest, most dynamic and most diverse open world ever created.
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="color: #94A3B8; line-height: 1.6;">${game.description}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+                        <div style="background: rgba(139, 92, 246, 0.1); padding: 1rem; border-radius: 10px;">
+                            <div style="color: #8B5CF6; font-weight: bold; margin-bottom: 0.5rem;">
+                                <i class="fas fa-hdd"></i> File Size
+                            </div>
+                            <div style="color: #94A3B8;">${game.size}</div>
+                        </div>
+                        
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 10px;">
+                            <div style="color: #3B82F6; font-weight: bold; margin-bottom: 0.5rem;">
+                                <i class="fas fa-star"></i> Rating
+                            </div>
+                            <div style="color: #94A3B8;">${game.rating}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(30, 41, 59, 0.7); padding: 1rem; border-radius: 10px; margin: 1.5rem 0;">
+                        <div style="color: #8B5CF6; font-weight: bold; margin-bottom: 0.5rem;">
+                            <i class="fas fa-desktop"></i> System Requirements
+                        </div>
+                        <div style="color: #94A3B8; font-size: 0.9rem;">${game.requirements}</div>
+                    </div>
+                    
+                    <div style="margin: 1.5rem 0;">
+                        <h3 style="color: var(--text-light); margin-bottom: 1rem;">
+                            <i class="fas fa-download"></i> Download Options
+                        </h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 0.75rem;">
+                            <button class="cloud-btn" onclick="startDownload('${gameId}', 'akirabox')" 
+                                    style="background: linear-gradient(45deg, #8B5CF6, #3B82F6);">
+                                <i class="fas fa-cloud"></i> Download via Akirabox
+                            </button>
+                            
+                            <button class="cloud-btn" onclick="startDownload('${gameId}', 'mediafire')"
+                                    style="background: linear-gradient(45deg, #3B82F6, #1E40AF);">
+                                <i class="fas fa-fire"></i> Download via MediaFire
+                            </button>
+                            
+                            <button class="cloud-btn" onclick="startDownload('${gameId}', 'yourcloud')"
+                                    style="background: linear-gradient(45deg, #10B981, #059669);">
+                                <i class="fas fa-server"></i> Download via Your Cloud
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.5); border-radius: 10px; margin-top: 1.5rem;">
+                        <p style="color: #94A3B8; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-shield-alt"></i> All downloads are virus-scanned and verified.
                         </p>
-                        
-                        <div class="platform-badges">
-                            <span class="platform-badge">PC</span>
-                            <span class="platform-badge" style="background: #10B981;">Action</span>
-                            <span class="platform-badge" style="background: #F59E0B;">Open World</span>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
-                            <div style="color: #8B5CF6; font-weight: bold;">
-                                <i class="fas fa-star"></i> 4.9/5
-                            </div>
-                            <div style="color: #94A3B8;">
-                                <i class="fas fa-download"></i> 95.2M
-                            </div>
-                        </div>
-                        
-                        <a href="games/gta-v.html" class="download-btn">
-                            <i class="fas fa-info-circle"></i> View Details
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Elden Ring Card -->
-                <div class="game-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #0f172a); 
-                                display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 4rem; font-weight: bold; color: gold;">ELDEN RING</span>
-                    </div>
-                    <div class="game-content">
-                        <h3 class="game-title">Elden Ring</h3>
-                        <p class="game-description">
-                            Rise, Tarnished, and be guided by grace to become an Elden Lord.
-                        </p>
-                        
-                        <div class="platform-badges">
-                            <span class="platform-badge">PC</span>
-                            <span class="platform-badge" style="background: #7C3AED;">RPG</span>
-                            <span class="platform-badge" style="background: #DC2626;">Souls-like</span>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
-                            <div style="color: #8B5CF6; font-weight: bold;">
-                                <i class="fas fa-star"></i> 4.8/5
-                            </div>
-                            <div style="color: #94A3B8;">
-                                <i class="fas fa-download"></i> 20.4M
-                            </div>
-                        </div>
-                        
-                        <a href="games/elden-ring.html" class="download-btn">
-                            <i class="fas fa-info-circle"></i> View Details
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Sekiro Card -->
-                <div class="game-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #0f172a, #1e293b); 
-                                display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 4rem; font-weight: bold; color: #fbbf24;">SEKIRO</span>
-                    </div>
-                    <div class="game-content">
-                        <h3 class="game-title">Sekiro: Shadows Die Twice</h3>
-                        <p class="game-description">
-                            Carve your own clever path to vengeance in this award-winning adventure.
-                        </p>
-                        
-                        <div class="platform-badges">
-                            <span class="platform-badge">PC</span>
-                            <span class="platform-badge" style="background: #475569;">Action</span>
-                            <span class="platform-badge" style="background: #7C3AED;">Stealth</span>
-                        </div>
-                        
-                        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
-                            <div style="color: #8B5CF6; font-weight: bold;">
-                                <i class="fas fa-star"></i> 4.7/5
-                            </div>
-                            <div style="color: #94A3B8;">
-                                <i class="fas fa-download"></i> 10.1M
-                            </div>
-                        </div>
-                        
-                        <a href="games/sekiro.html" class="download-btn">
-                            <i class="fas fa-info-circle"></i> View Details
-                        </a>
                     </div>
                 </div>
             </div>
-        </section>
+        `
         
-        <!-- Other sections (initially hidden) -->
-        <section id="mac-section" class="games-section">
-            <h2>Mac Games Coming Soon...</h2>
-        </section>
-        
-        <section id="mobile-section" class="games-section">
-            <h2>Mobile Games Coming Soon...</h2>
-        </section>
-        
-        <section id="console-section" class="games-section">
-            <h2>Console Games Coming Soon...</h2>
-        </section>
-    </main>
-
-    <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.games-section').forEach(section => {
-                section.classList.remove('active')
-            })
-            
-            // Remove active class from all buttons
-            document.querySelectorAll('.platform-btn').forEach(btn => {
-                btn.classList.remove('active')
-            })
-            
-            // Show selected section
-            document.getElementById(`${sectionId}-section`).classList.add('active')
-            
-            // Add active class to clicked button
-            event.target.classList.add('active')
+        // Remove existing modal if any
+        const existingModal = document.getElementById('gameModal')
+        if (existingModal) {
+            existingModal.remove()
         }
         
-        // Set PC as default
-        showSection('pc')
-    </script>
-</body>
-</html>
+        // Add new modal
+        const modalContainer = document.createElement('div')
+        modalContainer.innerHTML = modalHTML
+        document.body.appendChild(modalContainer)
+        
+        // Add modal styles if not already present
+        if (!document.querySelector('#modalStyles')) {
+            const modalStyles = `
+                <style>
+                    .modal {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(15, 23, 42, 0.95);
+                        backdrop-filter: blur(10px);
+                        z-index: 1000;
+                        align-items: center;
+                        justify-content: center;
+                        display: none;
+                    }
+                    
+                    .modal-content {
+                        background: rgba(30, 41, 59, 0.95);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        border: 2px solid rgba(139, 92, 246, 0.3);
+                        max-width: 90%;
+                        animation: modalSlide 0.3s ease;
+                    }
+                    
+                    @keyframes modalSlide {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    
+                    .cloud-btn {
+                        color: white;
+                        border: none;
+                        padding: 1rem;
+                        border-radius: 10px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                    }
+                    
+                    .cloud-btn:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+                    }
+                </style>
+            `
+            const styleElement = document.createElement('div')
+            styleElement.id = 'modalStyles'
+            styleElement.innerHTML = modalStyles
+            document.head.appendChild(styleElement)
+        }
+    }
+    
+    function closeGameModal() {
+        const modal = document.getElementById('gameModal')
+        if (modal) {
+            modal.remove()
+        }
+    }
+    
+    function startDownload(gameId, provider) {
+        // Track download
+        if (window.GamesArcDB) {
+            const userId = localStorage.getItem('gamesarc_user_id') || 'anonymous'
+            GamesArcDB.trackDownload(gameId, userId)
+        }
+        
+        let url = '#'
+        let message = ''
+        
+        switch(provider) {
+            case 'akirabox':
+                url = 'https://akirabox.com/'
+                message = 'Redirecting to Akirabox...'
+                break
+                
+            case 'mediafire':
+                url = 'https://mediafire.com/'
+                message = 'Redirecting to MediaFire...'
+                break
+                
+            case 'yourcloud':
+                url = 'YOUR_CLOUD_STORAGE_LINK_HERE' // ⚠️ REPLACE THIS
+                message = 'Redirecting to your cloud storage...'
+                alert('⚠️ Please update the cloud link in the code!')
+                break
+        }
+        
+        if (url !== '#') {
+            if (confirm(`${message}\n\nDownload will start in a new tab. Continue?`)) {
+                window.open(url, '_blank')
+                closeGameModal()
+                
+                // Show success message
+                alert('✅ Download started! Check your downloads folder.')
+            }
+        }
+    }
+    
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeGameModal()
+        }
+    })
+    
+    // Close with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeGameModal()
+        }
+    })
+</script>
