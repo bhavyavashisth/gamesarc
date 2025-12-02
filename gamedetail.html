@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!-- gamesarc/game.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Details - GamesArc</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gamepad"></i> GamesArc
+        </a>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="games.html" class="nav-link">Games</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div id="game-details">
+            <!-- Game details will load here -->
+            <div style="text-align: center; padding: 4rem;">
+                <div class="coming-soon-icon">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+                </div>
+                <h2>Loading game details...</h2>
+            </div>
+        </div>
+    </main>
+
+    <script src="games-database.js"></script>
+    <script>
+        // Get game ID from URL
+        const urlParams = new URLSearchParams(window.location.search)
+        const gameId = urlParams.get('id')
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (gameId) {
+                loadGameDetails(gameId)
+            } else {
+                document.getElementById('game-details').innerHTML = `
+                    <div style="text-align: center; padding: 4rem;">
+                        <h2>Game not found</h2>
+                        <p>Return to <a href="index.html">home page</a></p>
+                    </div>
+                `
+            }
+        })
+        
+        function loadGameDetails(gameId) {
+            const game = GamesDatabase.getGameById(gameId)
+            
+            if (!game) {
+                document.getElementById('game-details').innerHTML = `
+                    <div style="text-align: center; padding: 4rem;">
+                        <h2>Game not found</h2>
+                        <p>Return to <a href="index.html">home page</a></p>
+                    </div>
+                `
+                return
+            }
+            
+            const html = createGameDetailsHTML(game)
+            document.getElementById('game-details').innerHTML = html
+        }
+        
+        function createGameDetailsHTML(game) {
+            const platforms = game.platforms.map(p => `
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+                        ${getPlatformIcon(p)}
+                    </div>
+                    <div style="font-weight: 600;">${p.toUpperCase()}</div>
+                    ${game.downloadLinks[p] ? `
+                        <div style="color: #94A3B8; font-size: 0.9rem; margin: 0.5rem 0;">
+                            ${game.downloadLinks[p].size}
+                        </div>
+                        <button class="download-btn" onclick="downloadGame('${game.id}', '${p}')" 
+                                style="width: 100%;">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    ` : '<div style="color: #94A3B8;">Coming Soon</div>'}
+                </div>
+            `).join('')
+            
+            const genres = game.genres.map(g => 
+                `<span style="background: rgba(139, 92, 246, 0.1); color: #8B5CF6; 
+                            padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem;">
+                    ${g}
+                </span>`
+            ).join(' ')
+            
+            return `
+                <!-- Hero Section -->
+                <div style="position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 2rem;">
+                    <img src="${game.coverImage}" 
+                         alt="${game.title}"
+                         style="width: 100%; height: 400px; object-fit: cover;">
+                    
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; 
+                                background: linear-gradient(transparent, rgba(15, 23, 42, 0.9)); 
+                                padding: 2rem;">
+                        <div style="display: flex; align-items: end; gap: 2rem;">
+                            <div style="background: var(--card-bg); padding: 1rem; border-radius: 15px;">
+                                <div style="font-size: 3rem;">${game.icon}</div>
+                            </div>
+                            
+                            <div>
+                                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">${game.title}</h1>
+                                <p style="color: #94A3B8; font-size: 1.1rem;">${game.shortDescription}</p>
+                                
+                                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                    <div style="background: #8B5CF6; color: white; padding: 0.5rem 1rem; 
+                                                border-radius: 10px; font-weight: bold;">
+                                        ${game.rating} ★
+                                    </div>
+                                    <div style="background: rgba(139, 92, 246, 0.1); color: #8B5CF6; 
+                                                padding: 0.5rem 1rem; border-radius: 10px;">
+                                        ${game.ageRating || 'All Ages'}
+                                    </div>
+                                    ${game.isFree ? 
+                                        '<div style="background: #10B981; color: white; padding: 0.5rem 1rem; border-radius: 10px;">FREE</div>' :
+                                        '<div style="background: #F59E0B; color: white; padding: 0.5rem 1rem; border-radius: 10px;">PREMIUM</div>'
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <!-- Left Column -->
+                    <div>
+                        <!-- Game Description -->
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">About This Game</h3>
+                            <p style="line-height: 1.6; color: #94A3B8; margin-bottom: 1.5rem;">
+                                ${game.fullDescription || game.shortDescription}
+                            </p>
+                            
+                            <div style="margin: 1.5rem 0;">
+                                <h4>Genres</h4>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                                    ${genres}
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                                <div>
+                                    <h4>Developer</h4>
+                                    <p style="color: #94A3B8;">${game.developer || 'Unknown'}</p>
+                                </div>
+                                <div>
+                                    <h4>Publisher</h4>
+                                    <p style="color: #94A3B8;">${game.publisher || 'Unknown'}</p>
+                                </div>
+                                <div>
+                                    <h4>Release Date</h4>
+                                    <p style="color: #94A3B8;">${formatDate(game.releaseDate)}</p>
+                                </div>
+                                <div>
+                                    <h4>File Size</h4>
+                                    <p style="color: #94A3B8;">${game.fileSize || 'Unknown'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Screenshots -->
+                        ${game.screenshots && game.screenshots.length > 0 ? `
+                            <div style="background: var(--card-bg); padding: 2rem; border-radius: 20px;">
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Screenshots</h3>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                                    ${game.screenshots.map(screenshot => `
+                                        <img src="${screenshot}" 
+                                             alt="Screenshot"
+                                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; cursor: pointer;"
+                                             onclick="openImage('${screenshot}')">
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div>
+                        <!-- Download Section -->
+                        <div style="background: var(--card-bg); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Download</h3>
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+                                ${platforms}
+                            </div>
+                            
+                            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(139, 92, 246, 0.2);">
+                                <div style="color: #94A3B8; font-size: 0.9rem;">
+                                    <i class="fas fa-info-circle"></i> Total Downloads: ${game.downloads.toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- System Requirements -->
+                        ${game.systemRequirements ? `
+                            <div style="background: var(--card-bg); padding: 2rem; border-radius: 20px;">
+                                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">System Requirements</h3>
+                                ${Object.entries(game.systemRequirements).map(([platform, req]) => `
+                                    <div style="margin-bottom: 1.5rem;">
+                                        <h4 style="color: #8B5CF6; margin-bottom: 0.5rem;">${platform.toUpperCase()}</h4>
+                                        ${req.minimum ? `
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong>Minimum:</strong>
+                                                <p style="color: #94A3B8; font-size: 0.9rem;">${req.minimum}</p>
+                                            </div>
+                                        ` : ''}
+                                        ${req.recommended ? `
+                                            <div>
+                                                <strong>Recommended:</strong>
+                                                <p style="color: #94A3B8; font-size: 0.9rem;">${req.recommended}</p>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `
+        }
+        
+        function getPlatformIcon(platform) {
+            const icons = {
+                'windows': '🪟',
+                'mac': '🍎',
+                'mac-arm': '🍎 ARM',
+                'mac-intel': '🍎 Intel',
+                'linux': '🐧',
+                'android': '🤖',
+                'ios': '📱',
+                'playstation': '🎮',
+                'xbox': '🎮',
+                'switch': '🎮'
+            }
+            return icons[platform] || '💻'
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'Coming Soon'
+            const date = new Date(dateString)
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            })
+        }
+        
+        function openImage(url) {
+            window.open(url, '_blank')
+        }
+        
+        function downloadGame(gameId, platform) {
+            const game = GamesDatabase.getGameById(gameId)
+            const link = game.downloadLinks[platform]
+            
+            if (link && link.direct) {
+                if (confirm(`Download ${game.title} for ${platform.toUpperCase()}?`)) {
+                    // In real app: window.location.href = link.direct
+                    alert(`Starting download... (Demo - File: ${link.size})`)
+                }
+            } else {
+                alert('Download link not available yet')
+            }
+        }
+    </script>
+</body>
+</html>
