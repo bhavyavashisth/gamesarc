@@ -1,4 +1,19 @@
 // auth.js - UPDATED VERSION
+// Add this at the VERY TOP of auth.js
+if (!window.GamesArcDB) {
+    console.error('GamesArcDB not loaded! Loading it now...');
+    // Optionally load it dynamically
+    const script = document.createElement('script');
+    script.src = 'gamesarc-db.js';
+    document.head.appendChild(script);
+    
+    // Wait for it to load
+    script.onload = function() {
+        console.log('GamesArcDB loaded dynamically');
+        // Re-initialize auth
+        window.auth = new AuthSystem();
+    };
+}
 class AuthSystem {
     constructor() {
         this.currentUser = null;

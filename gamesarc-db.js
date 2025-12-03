@@ -1,4 +1,18 @@
 // gamesarc/gamesarc-db.js
+
+// Add this as the FIRST line in gamesarc-db.js
+if (window.GamesArcDB) {
+    console.log('GamesArcDB already exists, skipping re-declaration');
+} else {
+    // Your existing GamesArcDB object code here
+    const GamesArcDB = {
+        // ... all your existing code
+    };
+    
+    // Make it global
+    window.GamesArcDB = GamesArcDB;
+    GamesArcDB.init();
+}
 class GamesArcDB {
     constructor() {
         this.dbName = 'gamesarc_database_v1'

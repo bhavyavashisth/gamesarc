@@ -157,8 +157,16 @@
     <!-- Notification Container -->
     <div id="notification-container"></div>
 
-    <script src="gamesarc-db.js"></script>
-    <script src="auth.js"></script>
+   <script>
+    // Clear any duplicate GamesArcDB
+    delete window.GamesArcDB;
+    delete window.auth;
+    
+    // Force reload clean versions
+    localStorage.removeItem('gamesarc_users');
+    localStorage.removeItem('gamesarc_sessions');
+    console.log('Cleared previous auth data');
+</script>
     <script>
         // Initialize auth system
         const auth = new AuthSystem();
