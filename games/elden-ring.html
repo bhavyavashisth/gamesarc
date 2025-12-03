@@ -179,34 +179,50 @@
         </div>
 
         <!-- Comments Section -->
-        <div class="comments-section">
-            <h2 class="section-title" style="margin-top: 0;">
-                <i class="fas fa-comments"></i> Community Comments
-            </h2>
-            
-            <div id="commentsList">
-                <div class="comment">
-                    <div class="comment-header">
-                        <span class="comment-user">
-                            <i class="fas fa-user"></i> SoulsMaster
-                        </span>
-                        <span style="font-size: 0.9rem;">3 days ago</span>
-                    </div>
-                    <p>Amazing game! The open world design is revolutionary. Best FromSoftware game yet!</p>
-                </div>
-                
-                <div class="comment">
-                    <div class="comment-header">
-                        <span class="comment-user">
-                            <i class="fas fa-user"></i> TarnishedOne
-                        </span>
-                        <span style="font-size: 0.9rem;">1 week ago</span>
-                    </div>
-                    <p>Download worked perfectly. No issues with installation. Game runs smoothly on RTX 3060.</p>
-                </div>
-            </div>
+       <!-- Comments Section -->
+<div class="comments-container" id="commentsSection">
+    <div class="comments-header">
+        <h2 class="section-title" style="margin: 0;">
+            <i class="fas fa-comments"></i> Community Comments
+        </h2>
+        <div class="comments-count">
+            <span id="commentsCount">0</span> Comments
         </div>
-    </main>
+    </div>
+
+    <!-- Comment Form -->
+    <div class="comment-form">
+        <textarea class="comment-input" id="commentInput" 
+                  placeholder="Share your thoughts about this game..."></textarea>
+        <div class="comment-actions">
+            <input type="text" 
+                   class="username-input" 
+                   id="usernameInput"
+                   placeholder="Your name (optional)"
+                   maxlength="30">
+            <button class="comment-submit-btn" onclick="submitComment()">
+                <i class="fas fa-paper-plane"></i> Post Comment
+            </button>
+        </div>
+    </div>
+
+    <!-- Comments List -->
+    <div class="comments-list" id="commentsList">
+        <div class="comments-loading">
+            <div class="loading-spinner"></div>
+            <p>Loading comments...</p>
+        </div>
+    </div>
+
+    <!-- No Comments Message (hidden by default) -->
+    <div class="no-comments" id="noComments" style="display: none;">
+        <i class="fas fa-comment-slash"></i>
+        <h3>No comments yet</h3>
+        <p>Be the first to share your thoughts about this game!</p>
+    </div>
+</div>
+                
+          
 
     <!-- Cloud Modal (Same as GTA V but for Elden Ring) -->
     <div class="cloud-modal" id="cloudModal">

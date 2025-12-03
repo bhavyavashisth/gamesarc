@@ -262,3 +262,84 @@ class GamesArcDB {
 
 // Create global instance
 window.GamesArcDB = new GamesArcDB()
+// Add these methods to your existing GamesArcDB class
+class GamesArcDB {
+    // ... existing code ...
+
+    // Get comment statistics
+    getCommentStats() {
+        const db = this.getDB()
+        const comments = db.comments || {}
+        
+        let totalComments = 0
+        let commentsByGame = {}
+        let recentComments = []
+        
+        Object.entries(comments).forEach(([gameId, gameComments]) => {
+            totalComments += gameComments.length
+            commentsByGame[gameId] = gameComments.length
+            
+            // Get recent comments (last 5)
+            gameComments.slice(0, 5).forEach(comment => {
+                recentComments.push({
+                    gameId,
+                    username: comment.username,
+                    comment: comment.comment.substring(0, 100) + '...',
+                    timestamp: comment.timestamp
+                })
+            })
+        })
+        
+        return {
+            totalComments,
+            commentsByGame,
+            recentComments: recentComments.sort((a, b) => 
+                new Date(b.timestamp) - new Date(a.timestamp)
+            ).slice(0, 10)
+        }
+    }
+    
+    // Get top commenters
+    getTopCommenters() {
+        const db = this.getDB()
+        const users = db.users || {}
+        
+        const topCommenters = Object.values(users)
+            .filter(user => user.commentsCount && user.commentsCount > 0)
+            .sort((a, b) => b.commentsCount - a.commentsCount)
+            .slice(0, 10)
+            .map(user => ({
+                username: user.username,
+                commentsCount: user.commentsCount
+            }))
+        
+        return topCommenters
+    }
+}
+
+// Add admin functions to view comments
+function viewAllComments() {
+    const comments = CommentsDB.getComments('gta-v').concat(
+        CommentsDB.getComments('elden-ring'),
+        CommentsDB.getComments('sekiro')
+    )
+    
+    console.log('All Comments:', comments)
+    
+    let report = '=== COMMENTS REPORT ===\n\n'
+    report += `Total Comments: ${comments.length}\n\n`
+    
+    comments.forEach((comment, index) => {
+        report += `${index + 1}. ${comment.username} (${new Date(comment.timestamp).toLocaleDateString()})\n`
+        report += `   Game: ${comment.gameId}\n`
+        report += `   Comment: ${comment.comment.substring(0, 50)}${comment.comment.length > 50 ? '...' : ''}\n`
+        report += `   Likes: ${comment.likes || 0} | Dislikes: ${comment.dislikes || 0}\n\n`
+    })
+    
+    // Show in alert (truncated if too long)
+    if (report.length > 2000) {
+        report = report.substring(0, 2000) + '\n\n... (truncated)'
+    }
+    
+    alert(report)
+}
