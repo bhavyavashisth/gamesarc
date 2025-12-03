@@ -1,4 +1,4 @@
-// auth.js
+// auth.js - UPDATED VERSION
 class AuthSystem {
     constructor() {
         this.currentUser = null;
@@ -6,38 +6,31 @@ class AuthSystem {
     }
     
     init() {
-        this.checkAuthStatus();
-        this.updateUI();
-        this.setupEventListeners();
-    }
-    
-    checkAuthStatus() {
         this.currentUser = GamesArcDB.getCurrentUser();
+        this.updateUI();
     }
     
     async login(email, password) {
         try {
-            const { user, session } = GamesArcDB.loginUser(email, password);
-            localStorage.setItem('auth_token', session.token);
+            const { user } = GamesArcDB.loginUser(email, password);
             this.currentUser = user;
+            
+            // 🔴 IMPORTANT: Update UI immediately
             this.updateUI();
+            
             this.showNotification('Login successful!', 'success');
             return true;
         } catch (error) {
-            this.showNotification(error.message, 'error');
+            this.showNotification('Invalid email or password', 'error');
             return false;
         }
     }
     
     async register(userData) {
         try {
-            const user = GamesArcDB.registerUser(userData);
-            const { session } = GamesArcDB.loginUser(userData.email, userData.password);
-            localStorage.setItem('auth_token', session.token);
-            this.currentUser = user;
-            this.updateUI();
-            this.showNotification('Registration successful!', 'success');
-            return true;
+            GamesArcDB.registerUser(userData);
+            // Auto login after registration
+            return await this.login(userData.email, userData.password);
         } catch (error) {
             this.showNotification(error.message, 'error');
             return false;
@@ -45,25 +38,11 @@ class AuthSystem {
     }
     
     logout() {
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            GamesArcDB.logoutUser(token);
-        }
-        localStorage.removeItem('auth_token');
+        GamesArcDB.logoutUser();
         this.currentUser = null;
         this.updateUI();
-        this.showNotification('Logged out successfully', 'info');
-    }
-    
-    async changePassword(email, newPassword) {
-        try {
-            GamesArcDB.changePassword(email, newPassword);
-            this.showNotification('Password changed successfully', 'success');
-            return true;
-        } catch (error) {
-            this.showNotification(error.message, 'error');
-            return false;
-        }
+        this.showNotification('Logged out', 'info');
+        window.location.href = 'index.html';
     }
     
     updateUI() {
@@ -71,73 +50,53 @@ class AuthSystem {
         const profileBtn = document.getElementById('profileBtn');
         const userMenu = document.getElementById('userMenu');
         
+        console.log('Updating UI... Current user:', this.currentUser); // Debug
+        
         if (this.currentUser) {
-            if (loginBtn) loginBtn.style.display = 'none';
+            // User is logged in - SHOW PROFILE, HIDE LOGIN
+            if (loginBtn) {
+                loginBtn.style.display = 'none';
+                loginBtn.style.visibility = 'hidden';
+            }
             if (profileBtn) {
-                profileBtn.style.display = 'block';
-                profileBtn.innerHTML = `
-                    <img src="images/avatars/${this.currentUser.avatar}" 
-                         alt="${this.currentUser.username}" 
-                         class="avatar-small">
-                    <span>${this.currentUser.username} (${this.currentUser.points} pts)</span>
-                `;
+                profileBtn.style.display = 'flex';
+                profileBtn.style.visibility = 'visible';
+                
+                // Update profile info
+                const usernameSpan = profileBtn.querySelector('#headerUsername');
+                const pointsSpan = profileBtn.querySelector('#headerPoints');
+                const avatarImg = profileBtn.querySelector('.avatar-small');
+                
+                if (usernameSpan) usernameSpan.textContent = this.currentUser.username;
+                if (pointsSpan) pointsSpan.textContent = this.currentUser.points + ' pts';
+                if (avatarImg) {
+                    avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(this.currentUser.username)}&background=8b5cf6&color=fff`;
+                }
             }
             if (userMenu) {
                 userMenu.innerHTML = `
-                    <div class="user-info">
-                        <img src="images/avatars/${this.currentUser.avatar}" 
-                             alt="${this.currentUser.username}" 
-                             class="avatar-medium">
-                        <div>
-                            <h4>${this.currentUser.username}</h4>
-                            <p>${this.currentUser.email}</p>
-                            <p>${this.currentUser.points} points</p>
-                        </div>
-                    </div>
-                    <a href="profile.html" class="menu-item">Profile</a>
-                    <a href="membership.html" class="menu-item">Membership</a>
-                    <a href="#" id="logoutBtn" class="menu-item">Logout</a>
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="membership.html">
+                        <i class="fas fa-crown"></i> Membership
+                    </a>
+                    <a href="#" onclick="auth.logout()" style="color: #ef4444;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 `;
             }
         } else {
-            if (loginBtn) loginBtn.style.display = 'block';
-            if (profileBtn) profileBtn.style.display = 'none';
-            if (userMenu) {
-                userMenu.innerHTML = `
-                    <a href="login.html" class="menu-item">Login</a>
-                    <a href="register.html" class="menu-item">Register</a>
-                `;
+            // User is not logged in - SHOW LOGIN, HIDE PROFILE
+            if (loginBtn) {
+                loginBtn.style.display = 'flex';
+                loginBtn.style.visibility = 'visible';
+            }
+            if (profileBtn) {
+                profileBtn.style.display = 'none';
+                profileBtn.style.visibility = 'hidden';
             }
         }
-    }
-    
-    setupEventListeners() {
-        // Handle logout
-        document.addEventListener('click', (e) => {
-            if (e.target.id === 'logoutBtn') {
-                e.preventDefault();
-                this.logout();
-            }
-        });
-        
-        // Handle download points
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('download-btn')) {
-                this.handleDownload(e.target.dataset.gameId);
-            }
-        });
-    }
-    
-    handleDownload(gameId) {
-        if (!this.currentUser) {
-            this.showNotification('Please login to download games', 'warning');
-            return;
-        }
-        
-        const newPoints = GamesArcDB.addDownloadPoints(this.currentUser.id, gameId);
-        this.currentUser.points = newPoints;
-        this.updateUI();
-        this.showNotification(`+10 points! Total: ${newPoints} points`, 'success');
     }
     
     showNotification(message, type = 'info') {
@@ -173,5 +132,5 @@ class AuthSystem {
     }
 }
 
-// Initialize auth system
-const auth = new AuthSystem();
+// Create global instance
+window.auth = new AuthSystem();

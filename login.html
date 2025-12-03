@@ -194,45 +194,22 @@
             }
         }
         
-        async function handleSignup(event) {
-            event.preventDefault();
-            
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                auth.showNotification('Passwords do not match!', 'error');
-                return;
-            }
-            
-            // Validate password strength
-            if (password.length < 6) {
-                auth.showNotification('Password must be at least 6 characters', 'error');
-                return;
-            }
-            
-            // Validate username
-            if (username.length < 3) {
-                auth.showNotification('Username must be at least 3 characters', 'error');
-                return;
-            }
-            
-            const userData = {
-                username: username,
-                email: email,
-                password: password
-            };
-            
-            const success = await auth.register(userData);
-            if (success) {
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            }
-        }
+        async function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    const success = await auth.login(email, password);
+    if (success) {
+        // 🔴 ADD THIS LINE - Force UI update
+        auth.updateUI();
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+}
         
         // Auto-login if already authenticated
         document.addEventListener('DOMContentLoaded', () => {
