@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - GamesArc</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css"> <!-- Add this line -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header - Update this with auth integration -->
     <header class="header">
         <a href="index.html" class="logo">
             <i class="fas fa-gamepad"></i> GamesArc
@@ -30,6 +31,21 @@
                 <i class="fas fa-envelope"></i> Contact
             </a>
         </nav>
+        
+        <!-- Add this auth section -->
+        <div class="nav-auth">
+            <a href="login.html" id="loginBtn" class="nav-link" style="display: none;">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <div class="user-menu" id="profileBtn" style="display: none;">
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <div class="dropdown-content" id="userMenu">
+                    <!-- Will be populated by auth.js -->
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Content -->
@@ -40,15 +56,21 @@
             </h2>
             
             <form id="loginForm" onsubmit="handleLogin(event)">
-                <input type="email" 
-                       placeholder="Email" 
-                       class="form-input" 
-                       required>
+                <div class="form-group">
+                    <input type="email" 
+                           id="loginEmail"
+                           placeholder="Email" 
+                           class="form-input" 
+                           required>
+                </div>
                 
-                <input type="password" 
-                       placeholder="Password" 
-                       class="form-input" 
-                       required>
+                <div class="form-group">
+                    <input type="password" 
+                           id="loginPassword"
+                           placeholder="Password" 
+                           class="form-input" 
+                           required>
+                </div>
                 
                 <button type="submit" class="form-btn">
                     <i class="fas fa-sign-in-alt"></i> Login
@@ -63,8 +85,8 @@
             </div>
             
             <div style="text-align: center; margin-top: 1rem; color: var(--text-gray); font-size: 0.9rem;">
-                <a href="#" style="color: var(--primary-blue); text-decoration: none;">
-                    Forgot password?
+                <a href="forgot-password.html" style="color: var(--primary-blue); text-decoration: none;">
+                    <i class="fas fa-key"></i> Forgot password?
                 </a>
             </div>
         </div>
@@ -75,26 +97,41 @@
                 <i class="fas fa-user-plus"></i> Create Account
             </h2>
             
-            <form onsubmit="handleSignup(event)">
-                <input type="text" 
-                       placeholder="Username" 
-                       class="form-input" 
-                       required>
+            <form id="registerForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <input type="text" 
+                           id="registerUsername"
+                           placeholder="Username" 
+                           class="form-input" 
+                           required
+                           minlength="3"
+                           maxlength="20">
+                </div>
                 
-                <input type="email" 
-                       placeholder="Email" 
-                       class="form-input" 
-                       required>
+                <div class="form-group">
+                    <input type="email" 
+                           id="registerEmail"
+                           placeholder="Email" 
+                           class="form-input" 
+                           required>
+                </div>
                 
-                <input type="password" 
-                       placeholder="Password" 
-                       class="form-input" 
-                       required>
+                <div class="form-group">
+                    <input type="password" 
+                           id="registerPassword"
+                           placeholder="Password" 
+                           class="form-input" 
+                           required
+                           minlength="6">
+                </div>
                 
-                <input type="password" 
-                       placeholder="Confirm Password" 
-                       class="form-input" 
-                       required>
+                <div class="form-group">
+                    <input type="password" 
+                           id="registerConfirmPassword"
+                           placeholder="Confirm Password" 
+                           class="form-input" 
+                           required>
+                </div>
                 
                 <button type="submit" class="form-btn">
                     <i class="fas fa-user-plus"></i> Sign Up
@@ -117,7 +154,22 @@
         </p>
     </footer>
 
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script src="gamesarc-db.js"></script>
+    <script src="auth.js"></script>
     <script>
+        // Initialize auth system
+        const auth = new AuthSystem();
+        
+        // Track page view
+        document.addEventListener('DOMContentLoaded', function() {
+            GamesArcDB.trackPageView(window.location.pathname);
+            const stats = GamesArcDB.getStats();
+            console.log('GamesArc Stats:', stats);
+        });
+        
         function showSignup() {
             document.getElementById('loginForm').parentElement.style.display = 'none';
             document.getElementById('signupForm').style.display = 'block';
@@ -128,62 +180,91 @@
             document.getElementById('signupForm').style.display = 'none';
         }
         
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
-            // For now, just redirect to home
-            // In real implementation, you would validate credentials
-            alert('Login successful! Redirecting...');
-            window.location.href = 'index.html';
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const success = await auth.login(email, password);
+            if (success) {
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
         }
         
-        function handleSignup(event) {
+        async function handleSignup(event) {
             event.preventDefault();
-            alert('Account created successfully! Please login.');
-            showLogin();
+            
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                auth.showNotification('Passwords do not match!', 'error');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 6) {
+                auth.showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Validate username
+            if (username.length < 3) {
+                auth.showNotification('Username must be at least 3 characters', 'error');
+                return;
+            }
+            
+            const userData = {
+                username: username,
+                email: email,
+                password: password
+            };
+            
+            const success = await auth.register(userData);
+            if (success) {
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
         }
+        
+        // Auto-login if already authenticated
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = GamesArcDB.getCurrentUser();
+            if (user) {
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+            }
+        });
     </script>
-    <!-- Add after your existing scripts -->
-<script src="gamesarc-db.js"></script>
-<script>
-    // Initialize and track page view
-    document.addEventListener('DOMContentLoaded', function() {
-        // Track this page view
-        GamesArcDB.trackPageView(window.location.pathname)
-        
-        // Show stats in console (for debugging)
-        const stats = GamesArcDB.getStats()
-        console.log('GamesArc Stats:', stats)
-        
-        // Update vote counts on page
-        updateVoteCounts()
-        updateDownloadCounts()
-    })
-    
-    // Function to update vote counts on page
-    function updateVoteCounts() {
-        document.querySelectorAll('.vote-count').forEach(element => {
-            const gameId = element.dataset.gameId
-            if (gameId) {
-                const game = GamesArcDB.getGame(gameId)
-                if (game) {
-                    element.textContent = game.totalVotes.toLocaleString()
-                }
-            }
-        })
-    }
-    
-    // Function to update download counts
-    function updateDownloadCounts() {
-        document.querySelectorAll('.download-count').forEach(element => {
-            const gameId = element.dataset.gameId
-            if (gameId) {
-                const game = GamesArcDB.getGame(gameId)
-                if (game) {
-                    element.textContent = game.totalDownloads.toLocaleString()
-                }
-            }
-        })
-    }
-</script>
+    <header>
+    <nav>
+        <div class="logo">
+            <a href="index.html">GamesArc</a>
+        </div>
+        <div class="nav-links">
+            <a href="games.html">Games</a>
+            <a href="all-pc-games.html">PC Games</a>
+            <a href="membership.html">Membership</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <a href="login.html" id="loginBtn" class="btn btn-outline">Login</a>
+            <div class="user-menu" id="profileBtn" style="display: none;">
+                <button class="btn">
+                    <span>Profile</span>
+                </button>
+                <div class="dropdown-content" id="userMenu"></div>
+            </div>
+        </div>
+    </nav>
+</header>
 </body>
 </html>

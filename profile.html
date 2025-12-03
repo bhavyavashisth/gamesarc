@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - GamesArc</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <div class="avatar-section">
+                <img id="avatarImg" src="images/avatars/default.png" 
+                     alt="Avatar" class="avatar-large">
+                <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                <button onclick="document.getElementById('avatarUpload').click()" 
+                        class="btn btn-secondary">
+                    Change Avatar
+                </button>
+            </div>
+            <div class="profile-info">
+                <h2 id="username">Username</h2>
+                <p id="email">user@example.com</p>
+                <div class="points-display">
+                    <span class="points-badge" id="userPoints">0 points</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-card">
+                <h3>Games Downloaded</h3>
+                <p id="gamesDownloaded">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Points</h3>
+                <p id="totalPoints">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Member Since</h3>
+                <p id="memberSince">-</p>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <button onclick="changePassword()" class="btn">Change Password</button>
+            <button onclick="auth.logout()" class="btn btn-danger">Logout</button>
+        </div>
+    </div>
+
+    <script src="js/gamesarc-db.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Load profile data
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = GamesArcDB.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('username').textContent = user.username;
+            document.getElementById('email').textContent = user.email;
+            document.getElementById('userPoints').textContent = `${user.points} points`;
+            document.getElementById('totalPoints').textContent = user.points;
+            document.getElementById('memberSince').textContent = 
+                new Date(user.createdAt).toLocaleDateString();
+            
+            // Load avatar
+            document.getElementById('avatarImg').src = `images/avatars/${user.avatar}`;
+            
+            // Count downloads
+            const downloads = GamesArcDB.downloads.filter(d => d.userId === user.id);
+            document.getElementById('gamesDownloaded').textContent = downloads.length;
+        });
+        
+        // Handle avatar upload
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // In production, upload to server
+                    // For demo, save locally
+                    const user = GamesArcDB.getCurrentUser();
+                    const avatarName = `avatar_${user.id}_${Date.now()}.png`;
+                    
+                    // Update user avatar
+                    GamesArcDB.updateUser(user.id, { avatar: avatarName });
+                    
+                    // Update image
+                    document.getElementById('avatarImg').src = event.target.result;
+                    auth.updateUI();
+                    auth.showNotification('Avatar updated!', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function changePassword() {
+            const newPassword = prompt('Enter new password:');
+            if (newPassword && newPassword.length >= 6) {
+                const user = GamesArcDB.getCurrentUser();
+                GamesArcDB.changePassword(user.email, newPassword);
+                auth.showNotification('Password changed successfully', 'success');
+            }
+        }
+    </script>
+    <header>
+    <nav>
+        <div class="logo">
+            <a href="index.html">GamesArc</a>
+        </div>
+        <div class="nav-links">
+            <a href="games.html">Games</a>
+            <a href="all-pc-games.html">PC Games</a>
+            <a href="membership.html">Membership</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-auth">
+            <a href="login.html" id="loginBtn" class="btn btn-outline">Login</a>
+            <div class="user-menu" id="profileBtn" style="display: none;">
+                <button class="btn">
+                    <span>Profile</span>
+                </button>
+                <div class="dropdown-content" id="userMenu"></div>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

@@ -343,3 +343,182 @@ function viewAllComments() {
     
     alert(report)
 }
+// gamesarc-db.js
+const GamesArcDB = {
+    users: JSON.parse(localStorage.getItem('gamesarc_users')) || [],
+    sessions: JSON.parse(localStorage.getItem('gamesarc_sessions')) || [],
+    downloads: JSON.parse(localStorage.getItem('gamesarc_downloads')) || [],
+    
+    // Initialize with admin user if empty
+    init() {
+        if (this.users.length === 0) {
+            this.users.push({
+                id: 1,
+                username: 'admin',
+                email: 'admin@gamesarc.com',
+                password: this.hashPassword('admin123'),
+                avatar: 'default.png',
+                points: 1000,
+                role: 'admin',
+                createdAt: new Date().toISOString(),
+                lastLogin: null
+            });
+            this.saveUsers();
+        }
+    },
+    
+    hashPassword(password) {
+        // Simple hash - in production use bcrypt
+        return btoa(password);
+    },
+    
+    verifyPassword(inputPassword, storedHash) {
+        return this.hashPassword(inputPassword) === storedHash;
+    },
+    
+    // User CRUD operations
+    registerUser(userData) {
+        const exists = this.users.find(u => 
+            u.email === userData.email || u.username === userData.username
+        );
+        
+        if (exists) {
+            throw new Error('User already exists');
+        }
+        
+        const newUser = {
+            id: this.users.length + 1,
+            ...userData,
+            password: this.hashPassword(userData.password),
+            avatar: 'default.png',
+            points: 0,
+            role: 'user',
+            createdAt: new Date().toISOString(),
+            lastLogin: null
+        };
+        
+        this.users.push(newUser);
+        this.saveUsers();
+        return newUser;
+    },
+    
+    loginUser(email, password) {
+        const user = this.users.find(u => u.email === email);
+        
+        if (!user || !this.verifyPassword(password, user.password)) {
+            throw new Error('Invalid credentials');
+        }
+        
+        // Update last login
+        user.lastLogin = new Date().toISOString();
+        this.saveUsers();
+        
+        // Create session
+        const session = {
+            userId: user.id,
+            token: this.generateToken(),
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+        };
+        
+        this.sessions.push(session);
+        this.saveSessions();
+        
+        return { user, session };
+    },
+    
+    logoutUser(token) {
+        this.sessions = this.sessions.filter(s => s.token !== token);
+        this.saveSessions();
+    },
+    
+    getCurrentUser() {
+        const token = localStorage.getItem('auth_token');
+        if (!token) return null;
+        
+        const session = this.sessions.find(s => s.token === token);
+        if (!session || new Date(session.expiresAt) < new Date()) {
+            this.logoutUser(token);
+            return null;
+        }
+        
+        return this.users.find(u => u.id === session.userId);
+    },
+    
+    updateUser(userId, updates) {
+        const userIndex = this.users.findIndex(u => u.id === userId);
+        if (userIndex === -1) throw new Error('User not found');
+        
+        this.users[userIndex] = { ...this.users[userIndex], ...updates };
+        this.saveUsers();
+        return this.users[userIndex];
+    },
+    
+    changePassword(email, newPassword) {
+        const user = this.users.find(u => u.email === email);
+        if (!user) throw new Error('User not found');
+        
+        user.password = this.hashPassword(newPassword);
+        this.saveUsers();
+        return true;
+    },
+    
+    addDownloadPoints(userId, gameId) {
+        const user = this.users.find(u => u.id === userId);
+        if (!user) return;
+        
+        // Check if already downloaded today
+        const today = new Date().toDateString();
+        const alreadyDownloaded = this.downloads.some(d => 
+            d.userId === userId && d.gameId === gameId && 
+            new Date(d.date).toDateString() === today
+        );
+        
+        if (!alreadyDownloaded) {
+            user.points += 10; // 10 points per game per day
+            this.downloads.push({
+                userId,
+                gameId,
+                date: new Date().toISOString(),
+                points: 10
+            });
+            this.saveUsers();
+            this.saveDownloads();
+        }
+        
+        return user.points;
+    },
+    
+    // Helper methods
+    generateToken() {
+        return 'token_' + Math.random().toString(36).substr(2) + Date.now().toString(36);
+    },
+    
+    saveUsers() {
+        localStorage.setItem('gamesarc_users', JSON.stringify(this.users));
+    },
+    
+    saveSessions() {
+        localStorage.setItem('gamesarc_sessions', JSON.stringify(this.sessions));
+    },
+    
+    saveDownloads() {
+        localStorage.setItem('gamesarc_downloads', JSON.stringify(this.downloads));
+    }
+};
+
+// Initialize database
+GamesArcDB.init();
+// Add to gamesarc-db.js
+achievements: JSON.parse(localStorage.getItem('gamesarc_achievements')) || [],
+
+addAchievement(userId, achievementId) 
+{
+    const achievement = {
+        id: achievementId,
+        userId,
+        date: new Date().toISOString(),
+        points: this.calculateAchievementPoints(achievementId)
+    };
+    this.achievements.push(achievement);
+    this.saveAchievements();
+}
