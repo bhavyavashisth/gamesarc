@@ -643,6 +643,25 @@
         <small class="download-count" data-game-id="cyber-nexus">(8,900)</small>
     </button>
 </div>
+<!-- Add this anywhere in index.html -->
+<div id="debugInfo" style="position: fixed; bottom: 10px; left: 10px; background: black; color: white; padding: 10px; font-family: monospace; font-size: 12px;">
+    Loading...
+</div>
+
+<script>
+setTimeout(function() {
+    const debug = document.getElementById('debugInfo');
+    const token = localStorage.getItem('auth_token');
+    const users = JSON.parse(localStorage.getItem('gamesarc_users')) || [];
+    
+    debug.innerHTML = `
+        Token: ${token ? 'YES' : 'NO'}<br>
+        Users: ${users.length}<br>
+        LoginBtn: ${document.getElementById('loginBtn') ? 'FOUND' : 'MISSING'}<br>
+        ProfileBtn: ${document.getElementById('profileBtn') ? 'FOUND' : 'MISSING'}
+    `;
+}, 1000);
+</script>
 
 </body>
 </html>
