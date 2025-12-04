@@ -197,7 +197,7 @@
             const success = await auth.login(email, password);
             if (success) {
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = 'profile.html';
                 }, 1000);
             }
         }
@@ -251,5 +251,63 @@
         </div>
     </nav>
 </header>
+<!-- Debug Panel -->
+<div style="position: fixed; bottom: 10px; left: 10px; background: #1e293b; padding: 15px; border-radius: 10px; border: 2px solid #8b5cf6; z-index: 9999; max-width: 300px;">
+    <h4 style="color: #8b5cf6; margin-bottom: 10px;">🔧 Login Debug</h4>
+    <button onclick="debugLogin()" style="background: #3b82f6; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-bottom: 10px; cursor: pointer;">
+        Test Login System
+    </button>
+    <div id="debugResult" style="font-size: 12px; color: #94a3b8;"></div>
+</div>
+
+<script>
+function debugLogin() {
+    const result = document.getElementById('debugResult');
+    result.innerHTML = 'Testing...';
+    
+    // Check 1: Are files loaded?
+    if (!window.GamesArcDB) {
+        result.innerHTML = '❌ gamesarc-db.js not loaded';
+        result.style.color = '#ef4444';
+        return;
+    }
+    
+    if (!window.auth) {
+        result.innerHTML = '❌ auth.js not loaded';
+        result.style.color = '#ef4444';
+        return;
+    }
+    
+    result.innerHTML += '<br>✅ Files loaded';
+    
+    // Check 2: Test admin login directly
+    try {
+        // First, create admin if doesn't exist
+        const adminExists = GamesArcDB.users.find(u => u.email === 'admin@gamesarc.com');
+        if (!adminExists) {
+            GamesArcDB.registerUser({
+                username: 'admin',
+                email: 'admin@gamesarc.com',
+                password: 'admin123'
+            });
+            result.innerHTML += '<br>✅ Admin user created';
+        }
+        
+        // Try to login
+        const { user } = GamesArcDB.loginUser('admin@gamesarc.com', 'admin123');
+        result.innerHTML += `<br>✅ Login works! User: ${user.username}`;
+        result.innerHTML += `<br>✅ Total users: ${GamesArcDB.users.length}`;
+        result.style.color = '#10b981';
+        
+        // Clear the token for testing
+        localStorage.removeItem('auth_token');
+        
+    } catch (error) {
+        result.innerHTML += `<br>❌ Login failed: ${error.message}`;
+        result.style.color = '#ef4444';
+        console.error('Debug error:', error);
+    }
+}
+</script>
 </body>
 </html>
