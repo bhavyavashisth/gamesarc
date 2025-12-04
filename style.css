@@ -927,6 +927,8 @@ body {
     background: linear-gradient(135deg, #8b5cf6, #3b82f6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text; /* Added for better compatibility */
+    color: #8b5cf6; /* Fallback color */
 }
 
 .profile-info p {
