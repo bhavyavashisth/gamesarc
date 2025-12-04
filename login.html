@@ -1,314 +1,228 @@
-<!-- gamesarc/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GamesArc</title>
+    <title>Login | GamesArc</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="auth.css"> <!-- Add this line -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="🎮">
 </head>
 <body>
-    <!-- Header - Update this with auth integration -->
-    <header class="header">
-        <a href="index.html" class="logo">
-            <i class="fas fa-gamepad"></i> GamesArc
-        </a>
-        
-        <nav class="nav-links">
-            <a href="index.html" class="nav-link">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a href="games.html" class="nav-link">
-                <i class="fas fa-gamepad"></i> Games
-            </a>
-            <a href="membership.html" class="nav-link">
-                <i class="fas fa-crown"></i> Membership
-            </a>
-            <a href="contact.html" class="nav-link">
-                <i class="fas fa-envelope"></i> Contact
-            </a>
-        </nav>
-        
-        <!-- Add this auth section -->
-        <div class="nav-auth">
-            <a href="login.html" id="loginBtn" class="nav-link" style="display: none;">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-            <div class="user-menu" id="profileBtn" style="display: none;">
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i> Profile
-                </a>
-                <div class="dropdown-content" id="userMenu">
-                    <!-- Will be populated by auth.js -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <span>🎮</span>
+                    <span>GamesArc</span>
                 </div>
+                <h1 class="auth-title" id="auth-title">Welcome Back!</h1>
+                <p class="auth-subtitle" id="auth-subtitle">Sign in to your account to continue your gaming journey</p>
             </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="form-container">
-            <h2 style="text-align: center; font-family: 'Orbitron', sans-serif; margin-bottom: 2rem;">
-                <i class="fas fa-user"></i> Welcome Back
-            </h2>
             
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <!-- Login Form -->
+            <form id="login-form" style="display: block;">
                 <div class="form-group">
-                    <input type="email" 
-                           id="loginEmail"
-                           placeholder="Email" 
-                           class="form-input" 
-                           required>
+                    <label class="form-label" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
                 </div>
                 
                 <div class="form-group">
-                    <input type="password" 
-                           id="loginPassword"
-                           placeholder="Password" 
-                           class="form-input" 
-                           required>
+                    <label class="form-label" for="login-password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('login-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
-                <button type="submit" class="form-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        <input type="checkbox" id="remember-me">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="forgot-password.html" style="font-size: 0.9rem;">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" onclick="showRegister()">Sign up now</a></p>
+                </div>
+                
+                <!-- Admin Hint -->
+                <div style="margin-top: var(--spacing-lg); padding: var(--spacing-md); background: var(--bg-darker); border-radius: var(--border-radius); border-left: 4px solid var(--warning);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.25rem;">
+                        <i class="fas fa-info-circle" style="color: var(--warning);"></i> Admin Access:
+                    </p>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">
+                        Email: <code>admin@gamesarc.com</code><br>
+                        Password: <code>admin123</code>
+                    </p>
+                </div>
             </form>
             
-            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-gray);">
-                Don't have an account? 
-                <a href="#" onclick="showSignup()" style="color: var(--primary-purple); text-decoration: none; font-weight: 600;">
-                    Sign up here
-                </a>
-            </div>
-            
-            <div style="text-align: center; margin-top: 1rem; color: var(--text-gray); font-size: 0.9rem;">
-                <a href="forgot-password.html" style="color: var(--primary-blue); text-decoration: none;">
-                    <i class="fas fa-key"></i> Forgot password?
-                </a>
-            </div>
-        </div>
-
-        <!-- Signup Form (Hidden by default) -->
-        <div class="form-container" id="signupForm" style="display: none;">
-            <h2 style="text-align: center; font-family: 'Orbitron', sans-serif; margin-bottom: 2rem;">
-                <i class="fas fa-user-plus"></i> Create Account
-            </h2>
-            
-            <form id="registerForm" onsubmit="handleSignup(event)">
+            <!-- Register Form -->
+            <form id="register-form" style="display: none;">
                 <div class="form-group">
-                    <input type="text" 
-                           id="registerUsername"
-                           placeholder="Username" 
-                           class="form-input" 
-                           required
-                           minlength="3"
-                           maxlength="20">
+                    <label class="form-label" for="register-username">Username</label>
+                    <input type="text" id="register-username" class="form-input" placeholder="Choose a username" required>
                 </div>
                 
                 <div class="form-group">
-                    <input type="email" 
-                           id="registerEmail"
-                           placeholder="Email" 
-                           class="form-input" 
-                           required>
+                    <label class="form-label" for="register-email">Email Address</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
                 </div>
                 
                 <div class="form-group">
-                    <input type="password" 
-                           id="registerPassword"
-                           placeholder="Password" 
-                           class="form-input" 
-                           required
-                           minlength="6">
+                    <label class="form-label" for="register-password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="register-password" class="form-input" placeholder="Create a password (min. 6 characters)" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('register-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <input type="password" 
-                           id="registerConfirmPassword"
-                           placeholder="Confirm Password" 
-                           class="form-input" 
-                           required>
+                    <label class="form-label" for="register-confirm">Confirm Password</label>
+                    <div class="password-input">
+                        <input type="password" id="register-confirm" class="form-input" placeholder="Confirm your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('register-confirm')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
-                <button type="submit" class="form-btn">
-                    <i class="fas fa-user-plus"></i> Sign Up
+                <div style="margin-bottom: var(--spacing-md); padding: var(--spacing-sm); background: var(--bg-darker); border-radius: var(--border-radius);">
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">
+                        <i class="fas fa-gift" style="color: var(--accent);"></i> 
+                        <strong>Welcome Bonus:</strong> Get 100 points when you sign up!
+                    </p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
                 </button>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" onclick="showLogin()">Sign in instead</a></p>
+                </div>
             </form>
             
-            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-gray);">
-                Already have an account? 
-                <a href="#" onclick="showLogin()" style="color: var(--primary-purple); text-decoration: none; font-weight: 600;">
-                    Login here
+            <!-- Back to Home -->
+            <div style="text-align: center; margin-top: var(--spacing-lg);">
+                <a href="index.html" class="btn btn-outline" style="width: 100%;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
                 </a>
             </div>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p style="color: var(--text-gray); margin-bottom: 1rem;">
-            &copy; 2024 GamesArc.xyz - All rights reserved
-        </p>
-    </footer>
-
-    <!-- Notification Container -->
-    <div id="notification-container"></div>
-
-   <script>
-    // Clear any duplicate GamesArcDB
-    delete window.GamesArcDB;
-    delete window.auth;
+    </div>
     
-    // Force reload clean versions
-    localStorage.removeItem('gamesarc_users');
-    localStorage.removeItem('gamesarc_sessions');
-    console.log('Cleared previous auth data');
-</script>
+    <script src="gamesarc-db.js"></script>
+    <script src="auth.js"></script>
     <script>
-        // Initialize auth system
-        const auth = new AuthSystem();
-        
-        // Track page view
+        // Check if register mode is requested
         document.addEventListener('DOMContentLoaded', function() {
-            GamesArcDB.trackPageView(window.location.pathname);
-            const stats = GamesArcDB.getStats();
-            console.log('GamesArc Stats:', stats);
+            GamesArcDB.initDB();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === 'true') {
+                showRegister();
+            }
+            
+            // Check if already logged in
+            if (GamesArcAuth.checkAuthState()) {
+                window.location.href = 'profile.html';
+            }
+            
+            // Setup form submissions
+            setupForms();
         });
         
-        function showSignup() {
-            document.getElementById('loginForm').parentElement.style.display = 'none';
-            document.getElementById('signupForm').style.display = 'block';
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.parentElement.querySelector('.toggle-password i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                button.className = 'fas fa-eye';
+            }
         }
         
         function showLogin() {
-            document.getElementById('loginForm').parentElement.style.display = 'block';
-            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('auth-title').textContent = 'Welcome Back!';
+            document.getElementById('auth-subtitle').textContent = 'Sign in to your account to continue your gaming journey';
         }
         
-        async function handleLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            const success = await auth.login(email, password);
-            if (success) {
-                setTimeout(() => {
-                    window.location.href = 'profile.html';
-                }, 1000);
-            }
+        function showRegister() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById('auth-title').textContent = 'Join GamesArc';
+            document.getElementById('auth-subtitle').textContent = 'Create your account and start earning points today';
         }
         
-        async function handleLogin(event) {
-    event.preventDefault();
-    
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    
-    const success = await auth.login(email, password);
-    if (success) {
-        // 🔴 ADD THIS LINE - Force UI update
-        auth.updateUI();
-        
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 1000);
-    }
-}
-        
-        // Auto-login if already authenticated
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = GamesArcDB.getCurrentUser();
-            if (user) {
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 500);
-            }
-        });
-    </script>
-    <header>
-    <nav>
-        <div class="logo">
-            <a href="index.html">GamesArc</a>
-        </div>
-        <div class="nav-links">
-            <a href="games.html">Games</a>
-            <a href="all-pc-games.html">PC Games</a>
-            <a href="membership.html">Membership</a>
-            <a href="contact.html">Contact</a>
-        </div>
-        <div class="nav-auth">
-            <a href="login.html" id="loginBtn" class="btn btn-outline">Login</a>
-            <div class="user-menu" id="profileBtn" style="display: none;">
-                <button class="btn">
-                    <span>Profile</span>
-                </button>
-                <div class="dropdown-content" id="userMenu"></div>
-            </div>
-        </div>
-    </nav>
-</header>
-<!-- Debug Panel -->
-<div style="position: fixed; bottom: 10px; left: 10px; background: #1e293b; padding: 15px; border-radius: 10px; border: 2px solid #8b5cf6; z-index: 9999; max-width: 300px;">
-    <h4 style="color: #8b5cf6; margin-bottom: 10px;">🔧 Login Debug</h4>
-    <button onclick="debugLogin()" style="background: #3b82f6; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-bottom: 10px; cursor: pointer;">
-        Test Login System
-    </button>
-    <div id="debugResult" style="font-size: 12px; color: #94a3b8;"></div>
-</div>
-
-<script>
-function debugLogin() {
-    const result = document.getElementById('debugResult');
-    result.innerHTML = 'Testing...';
-    
-    // Check 1: Are files loaded?
-    if (!window.GamesArcDB) {
-        result.innerHTML = '❌ gamesarc-db.js not loaded';
-        result.style.color = '#ef4444';
-        return;
-    }
-    
-    if (!window.auth) {
-        result.innerHTML = '❌ auth.js not loaded';
-        result.style.color = '#ef4444';
-        return;
-    }
-    
-    result.innerHTML += '<br>✅ Files loaded';
-    
-    // Check 2: Test admin login directly
-    try {
-        // First, create admin if doesn't exist
-        const adminExists = GamesArcDB.users.find(u => u.email === 'admin@gamesarc.com');
-        if (!adminExists) {
-            GamesArcDB.registerUser({
-                username: 'admin',
-                email: 'admin@gamesarc.com',
-                password: 'admin123'
+        function setupForms() {
+            // Login form
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                const result = GamesArcAuth.login(email, password);
+                
+                if (result.success) {
+                    GamesArcAuth.showNotification(result.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+                } else {
+                    GamesArcAuth.showNotification(result.message, 'danger');
+                }
             });
-            result.innerHTML += '<br>✅ Admin user created';
+            
+            // Register form
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('register-username').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirm = document.getElementById('register-confirm').value;
+                
+                if (password !== confirm) {
+                    GamesArcAuth.showNotification('Passwords do not match', 'danger');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    GamesArcAuth.showNotification('Password must be at least 6 characters', 'danger');
+                    return;
+                }
+                
+                const result = GamesArcAuth.register(email, password, username);
+                
+                if (result.success) {
+                    GamesArcAuth.showNotification(result.message, 'success');
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+                } else {
+                    GamesArcAuth.showNotification(result.message, 'danger');
+                }
+            });
         }
-        
-        // Try to login
-        const { user } = GamesArcDB.loginUser('admin@gamesarc.com', 'admin123');
-        result.innerHTML += `<br>✅ Login works! User: ${user.username}`;
-        result.innerHTML += `<br>✅ Total users: ${GamesArcDB.users.length}`;
-        result.style.color = '#10b981';
-        
-        // Clear the token for testing
-        localStorage.removeItem('auth_token');
-        
-    } catch (error) {
-        result.innerHTML += `<br>❌ Login failed: ${error.message}`;
-        result.style.color = '#ef4444';
-        console.error('Debug error:', error);
-    }
-}
-</script>
-<script src="simple-auth.js"></script>
+    </script>
 </body>
 </html>
