@@ -1,5 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+    <header class="header">
+    <a href="index.html" class="logo">
+        <i class="fas fa-gamepad"></i> GamesArc
+    </a>
+    
+    <nav class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="games.html" class="nav-link"><i class="fas fa-gamepad"></i> Games</a>
+        <a href="membership.html" class="nav-link"><i class="fas fa-crown"></i> Membership</a>
+        <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+    </nav>
+    
+    <!-- 🔴 AUTH SECTION - MUST HAVE THESE EXACT IDs -->
+    <div class="nav-auth">
+        <!-- LOGIN BUTTON -->
+        <a href="login.html" id="loginBtn" class="btn-login">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+        
+        <!-- PROFILE BUTTON -->
+        <div id="profileBtn" style="display: none;">
+            <a href="profile.html" class="btn-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=8b5cf6&color=fff" 
+                     class="avatar-small">
+                <span id="headerUsername">User</span>
+                <span class="points-badge" id="headerPoints">0 pts</span>
+            </a>
+        </div>
+    </div>
+</header>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -662,6 +692,23 @@ setTimeout(function() {
     `;
 }, 1000);
 </script>
+<!-- Load auth check FIRST -->
+<script src="auth-check.js"></script>
 
+<!-- Optional: Load other scripts AFTER -->
+<script src="gamesarc-db.js"></script>
+<script src="auth.js"></script>
+
+<!-- Run auth check again to make sure -->
+<script>
+    // Run after a short delay to ensure everything loaded
+    setTimeout(checkAuthStatus, 100);
+    
+    // Also run when user interacts with page
+    document.addEventListener('click', function() {
+        setTimeout(checkAuthStatus, 50);
+    });
+</script>
+<script src="simple-auth.js"></script>
 </body>
 </html>

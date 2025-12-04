@@ -592,3 +592,57 @@
         font-size: 1.5rem;
     }
 }
+/* Auth Button Styles */
+.nav-auth {
+    display: flex;
+    align-items: center;
+}
+
+.btn-login, .btn-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btn-profile {
+    background: #1e293b;
+    color: white;
+    border: 1px solid #334155;
+}
+
+.btn-profile:hover {
+    background: #334155;
+    border-color: #8b5cf6;
+}
+
+.avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #8b5cf6;
+}
+
+.points-badge {
+    background: #f59e0b;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
