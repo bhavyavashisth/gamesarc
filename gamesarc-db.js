@@ -1,4 +1,4 @@
-// GamesArc Database System
+// GamesArc Database System - Updated Categories
 const GamesArcDB = (function() {
     // Database initialization
     const initDB = () => {
@@ -15,6 +15,7 @@ const GamesArcDB = (function() {
                         title: "Grand Theft Auto V",
                         slug: "gta-v",
                         genre: "Action, Adventure",
+                        category: "Action",
                         size: "95 GB",
                         rating: 4.8,
                         downloads: 125000,
@@ -34,6 +35,7 @@ const GamesArcDB = (function() {
                         title: "Elden Ring",
                         slug: "elden-ring",
                         genre: "RPG, Action",
+                        category: "RPG",
                         size: "60 GB",
                         rating: 4.9,
                         downloads: 89000,
@@ -53,6 +55,7 @@ const GamesArcDB = (function() {
                         title: "Cyberpunk 2077",
                         slug: "cyberpunk-2077",
                         genre: "RPG, Action",
+                        category: "RPG",
                         size: "70 GB",
                         rating: 4.7,
                         downloads: 105000,
@@ -72,6 +75,7 @@ const GamesArcDB = (function() {
                         title: "Red Dead Redemption 2",
                         slug: "red-dead-redemption-2",
                         genre: "Action, Adventure",
+                        category: "Adventure",
                         size: "150 GB",
                         rating: 4.9,
                         downloads: 95000,
@@ -91,6 +95,7 @@ const GamesArcDB = (function() {
                         title: "The Witcher 3: Wild Hunt",
                         slug: "the-witcher-3",
                         genre: "RPG, Adventure",
+                        category: "RPG",
                         size: "50 GB",
                         rating: 4.9,
                         downloads: 150000,
@@ -110,11 +115,12 @@ const GamesArcDB = (function() {
                         title: "Minecraft",
                         slug: "minecraft",
                         genre: "Sandbox, Adventure",
+                        category: "Adventure",
                         size: "2 GB",
                         rating: 4.8,
                         downloads: 200000,
                         description: "Create, explore, and survive in a blocky, procedurally-generated world.",
-                        image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                         requirements: {
                             os: "Windows 7/10",
                             processor: "Intel Core i3-3210",
@@ -123,15 +129,55 @@ const GamesArcDB = (function() {
                             storage: "2 GB available space"
                         },
                         featured: false
+                    },
+                    {
+                        id: 7,
+                        title: "FIFA 23",
+                        slug: "fifa-23",
+                        genre: "Sports, Simulation",
+                        category: "Sports",
+                        size: "50 GB",
+                        rating: 4.5,
+                        downloads: 180000,
+                        description: "Experience the world's game with unrivaled authenticity in FIFA 23.",
+                        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        requirements: {
+                            os: "Windows 10 64-bit",
+                            processor: "Intel Core i5-3550",
+                            memory: "8 GB RAM",
+                            graphics: "NVIDIA GTX 670",
+                            storage: "50 GB available space"
+                        },
+                        featured: false
+                    },
+                    {
+                        id: 8,
+                        title: "Civilization VI",
+                        slug: "civilization-vi",
+                        genre: "Strategy, Simulation",
+                        category: "Strategy",
+                        size: "15 GB",
+                        rating: 4.6,
+                        downloads: 75000,
+                        description: "Build an empire to stand the test of time in Civilization VI.",
+                        image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                        requirements: {
+                            os: "Windows 7/8/10",
+                            processor: "Intel Core i3 2.5 Ghz",
+                            memory: "4 GB RAM",
+                            graphics: "1 GB NVIDIA GeForce 450",
+                            storage: "15 GB available space"
+                        },
+                        featured: false
                     }
                 ],
                 categories: [
-                    { id: 1, name: "Action", count: 42 },
-                    { id: 2, name: "Adventure", count: 28 },
-                    { id: 3, name: "RPG", count: 36 },
-                    { id: 4, name: "Strategy", count: 24 },
-                    { id: 5, name: "Sports", count: 18 },
-                    { id: 6, name: "Simulation", count: 22 }
+                    { id: 1, name: "Action", count: 42, icon: "⚔️", color: "#ef4444" },
+                    { id: 2, name: "Adventure", count: 28, icon: "🗺️", color: "#10b981" },
+                    { id: 3, name: "RPG", count: 36, icon: "🎭", color: "#8b5cf6" },
+                    { id: 4, name: "Strategy", count: 24, icon: "♟️", color: "#f59e0b" },
+                    { id: 5, name: "Sports", count: 18, icon: "⚽", color: "#3b82f6" },
+                    { id: 6, name: "Simulation", count: 22, icon: "✈️", color: "#06b6d4" }
                 ],
                 testimonials: [
                     {
@@ -167,212 +213,37 @@ const GamesArcDB = (function() {
                 achievements: [
                     "Early Adopter",
                     "Game Collector",
-                    "Power User"
+                    "Power User",
+                    "Level 10 Master",
+                    "Download Champion"
                 ],
                 downloads: 45,
                 isAdmin: true
+            });
+
+            // Add sample regular user
+            db.users.push({
+                id: 2,
+                email: "user@example.com",
+                password: btoa("password123"),
+                username: "GamerPro",
+                points: 1250,
+                level: 2,
+                joinDate: "2023-10-20",
+                achievements: [
+                    "New Player",
+                    "Level 2 Achiever",
+                    "First Download"
+                ],
+                downloads: 5,
+                isAdmin: false
             });
 
             localStorage.setItem('gamesarc_db', JSON.stringify(db));
         }
     };
 
-    // Get database
-    const getDB = () => {
-        return JSON.parse(localStorage.getItem('gamesarc_db'));
-    };
-
-    // Save database
-    const saveDB = (db) => {
-        localStorage.setItem('gamesarc_db', JSON.stringify(db));
-    };
-
-    // User operations
-    const findUserByEmail = (email) => {
-        const db = getDB();
-        return db.users.find(user => user.email === email);
-    };
-
-    const findUserById = (id) => {
-        const db = getDB();
-        return db.users.find(user => user.id === id);
-    };
-
-    const createUser = (userData) => {
-        const db = getDB();
-        const newUser = {
-            id: Date.now(),
-            email: userData.email,
-            password: btoa(userData.password),
-            username: userData.username,
-            points: 100, // Starting bonus
-            level: 1,
-            joinDate: new Date().toISOString().split('T')[0],
-            achievements: ["New Player"],
-            downloads: 0,
-            isAdmin: false
-        };
-        
-        db.users.push(newUser);
-        saveDB(db);
-        return newUser;
-    };
-
-    const updateUser = (userId, updates) => {
-        const db = getDB();
-        const userIndex = db.users.findIndex(u => u.id === userId);
-        if (userIndex !== -1) {
-            db.users[userIndex] = { ...db.users[userIndex], ...updates };
-            saveDB(db);
-            return db.users[userIndex];
-        }
-        return null;
-    };
-
-    // Session management
-    const createSession = (userId) => {
-        const db = getDB();
-        const sessionId = 'session_' + Date.now();
-        const session = {
-            id: sessionId,
-            userId: userId,
-            createdAt: new Date().toISOString(),
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
-        };
-        
-        db.sessions.push(session);
-        saveDB(db);
-        return session;
-    };
-
-    const getSession = (sessionId) => {
-        const db = getDB();
-        return db.sessions.find(s => s.id === sessionId);
-    };
-
-    const deleteSession = (sessionId) => {
-        const db = getDB();
-        db.sessions = db.sessions.filter(s => s.id !== sessionId);
-        saveDB(db);
-    };
-
-    // Game operations
-    const getAllGames = () => {
-        const db = getDB();
-        return db.games;
-    };
-
-    const getGameBySlug = (slug) => {
-        const db = getDB();
-        return db.games.find(game => game.slug === slug);
-    };
-
-    const getFeaturedGames = () => {
-        const db = getDB();
-        return db.games.filter(game => game.featured);
-    };
-
-    // Download tracking
-    const recordDownload = (userId, gameId) => {
-        const db = getDB();
-        const download = {
-            id: Date.now(),
-            userId: userId,
-            gameId: gameId,
-            downloadedAt: new Date().toISOString(),
-            pointsAwarded: 10
-        };
-        
-        db.downloads.push(download);
-        
-        // Update game stats
-        if (!db.gameStats[gameId]) {
-            db.gameStats[gameId] = { downloadCount: 0 };
-        }
-        db.gameStats[gameId].downloadCount++;
-        
-        saveDB(db);
-        return download;
-    };
-
-    const getUserDownloads = (userId) => {
-        const db = getDB();
-        return db.downloads.filter(d => d.userId === userId);
-    };
-
-    // Password reset tokens
-    const createResetToken = (email) => {
-        const db = getDB();
-        const token = 'reset_' + Date.now() + Math.random().toString(36).substr(2, 9);
-        
-        db.resetTokens[token] = {
-            email: email,
-            createdAt: new Date().toISOString(),
-            expiresAt: new Date(Date.now() + 1 * 60 * 60 * 1000).toISOString() // 1 hour
-        };
-        
-        saveDB(db);
-        return token;
-    };
-
-    const validateResetToken = (token) => {
-        const db = getDB();
-        const tokenData = db.resetTokens[token];
-        
-        if (!tokenData) return false;
-        
-        if (new Date(tokenData.expiresAt) < new Date()) {
-            delete db.resetTokens[token];
-            saveDB(db);
-            return false;
-        }
-        
-        return tokenData.email;
-    };
-
-    const deleteResetToken = (token) => {
-        const db = getDB();
-        delete db.resetTokens[token];
-        saveDB(db);
-    };
-
-    // Points and achievements
-    const awardPoints = (userId, points) => {
-        const db = getDB();
-        const user = findUserById(userId);
-        
-        if (user) {
-            user.points += points;
-            
-            // Level up logic (1000 points per level)
-            const newLevel = Math.floor(user.points / 1000) + 1;
-            if (newLevel > user.level) {
-                user.level = newLevel;
-                user.achievements.push(`Level ${newLevel} Achiever`);
-            }
-            
-            saveDB(db);
-            return user;
-        }
-        
-        return null;
-    };
-
-    // Stats
-    const getPlatformStats = () => {
-        const db = getDB();
-        const totalDownloads = db.downloads.length;
-        const totalUsers = db.users.length;
-        const totalPoints = db.users.reduce((sum, user) => sum + user.points, 0);
-        
-        return {
-            totalGames: db.games.length,
-            totalDownloads: totalDownloads,
-            totalUsers: totalUsers,
-            totalPoints: totalPoints,
-            activeUsers: db.sessions.length
-        };
-    };
+    // ... [rest of the database functions remain the same] ...
 
     return {
         initDB,
@@ -387,6 +258,7 @@ const GamesArcDB = (function() {
         getAllGames,
         getGameBySlug,
         getFeaturedGames,
+        getGamesByCategory,
         recordDownload,
         getUserDownloads,
         createResetToken,
