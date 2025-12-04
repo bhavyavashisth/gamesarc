@@ -4,53 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - GamesArc</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="profile-header">
-            <div class="avatar-section">
-                <img id="avatarImg" src="images/avatars/default.png" 
-                     alt="Avatar" class="avatar-large">
-                <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
-                <button onclick="document.getElementById('avatarUpload').click()" 
-                        class="btn btn-secondary">
-                    Change Avatar
-                </button>
-            </div>
-            <div class="profile-info">
-                <h2 id="username">Username</h2>
-                <p id="email">user@example.com</p>
-                <div class="points-display">
-                    <span class="points-badge" id="userPoints">0 points</span>
+    <!-- Header (same as other pages) -->
+    
+    <main class="main-content">
+        <div class="profile-container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="avatar-section">
+                    <img id="avatarImg" src="https://ui-avatars.com/api/?name=User&background=8b5cf6&color=fff" 
+                         alt="Avatar" class="avatar-xlarge">
+                    <div class="avatar-actions">
+                        <button onclick="changeAvatar()" class="btn btn-secondary">
+                            <i class="fas fa-camera"></i> Change Avatar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 id="profileUsername">Username</h1>
+                    <p id="profileEmail">user@example.com</p>
+                    <div class="profile-stats-header">
+                        <div class="stat-badge">
+                            <i class="fas fa-trophy"></i>
+                            <span>Level <span id="profileLevel">1</span></span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-star"></i>
+                            <span><span id="profilePoints">0</span> points</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-download"></i>
+                            <span><span id="profileDownloads">0</span> downloads</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-fire"></i>
+                            <span><span id="profileStreak">0</span> day streak</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="profile-stats">
-            <div class="stat-card">
-                <h3>Games Downloaded</h3>
-                <p id="gamesDownloaded">0</p>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Games Downloaded</h3>
+                    <p class="stat-number" id="totalGames">0</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Achievements</h3>
+                    <p class="stat-number" id="totalAchievements">0</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3>Member Since</h3>
+                    <p id="memberSince">-</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Last Active</h3>
+                    <p id="lastActive">-</p>
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Total Points</h3>
-                <p id="totalPoints">0</p>
+            
+            <!-- Recent Downloads -->
+            <div class="section">
+                <h2><i class="fas fa-history"></i> Recent Downloads</h2>
+                <div id="recentDownloads" class="downloads-list">
+                    <!-- Filled by JavaScript -->
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>Member Since</h3>
-                <p id="memberSince">-</p>
+            
+            <!-- Achievements -->
+            <div class="section">
+                <h2><i class="fas fa-trophy"></i> Badges & Achievements</h2>
+                <div id="badgesList" class="badges-grid">
+                    <!-- Filled by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Profile Actions -->
+            <div class="profile-actions">
+                <button onclick="changePassword()" class="btn">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
+                <button onclick="exportData()" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Export My Data
+                </button>
+                <button onclick="auth.logout()" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
         </div>
-        
-        <div class="profile-actions">
-            <button onclick="changePassword()" class="btn">Change Password</button>
-            <button onclick="auth.logout()" class="btn btn-danger">Logout</button>
-        </div>
-    </div>
+    </main>
 
-    <script src="js/gamesarc-db.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="gamesarc-db.js"></script>
+    <script src="auth.js"></script>
     <script>
         // Load profile data
         document.addEventListener('DOMContentLoaded', () => {
@@ -60,74 +127,125 @@
                 return;
             }
             
-            document.getElementById('username').textContent = user.username;
-            document.getElementById('email').textContent = user.email;
-            document.getElementById('userPoints').textContent = `${user.points} points`;
-            document.getElementById('totalPoints').textContent = user.points;
-            document.getElementById('memberSince').textContent = 
-                new Date(user.createdAt).toLocaleDateString();
+            // Update profile info
+            document.getElementById('profileUsername').textContent = user.username;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileLevel').textContent = user.level;
+            document.getElementById('profilePoints').textContent = user.points.toLocaleString();
+            document.getElementById('profileDownloads').textContent = user.stats.totalDownloads;
+            document.getElementById('profileStreak').textContent = user.stats.streak;
             
-            // Load avatar
-            document.getElementById('avatarImg').src = `images/avatars/${user.avatar}`;
+            // Update stats
+            document.getElementById('totalGames').textContent = user.stats.gamesDownloaded.length;
+            document.getElementById('totalAchievements').textContent = user.badges.length;
+            document.getElementById('memberSince').textContent = new Date(user.createdAt).toLocaleDateString();
+            document.getElementById('lastActive').textContent = new Date(user.lastActive).toLocaleString();
             
-            // Count downloads
-            const downloads = GamesArcDB.downloads.filter(d => d.userId === user.id);
-            document.getElementById('gamesDownloaded').textContent = downloads.length;
+            // Load recent downloads
+            loadRecentDownloads(user.id);
+            
+            // Load badges
+            loadBadges(user.badges);
+            
+            // Update avatar
+            document.getElementById('avatarImg').src = 
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}&background=8b5cf6&color=fff`;
         });
         
-        // Handle avatar upload
-        document.getElementById('avatarUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    // In production, upload to server
-                    // For demo, save locally
-                    const user = GamesArcDB.getCurrentUser();
-                    const avatarName = `avatar_${user.id}_${Date.now()}.png`;
-                    
-                    // Update user avatar
-                    GamesArcDB.updateUser(user.id, { avatar: avatarName });
-                    
-                    // Update image
-                    document.getElementById('avatarImg').src = event.target.result;
-                    auth.updateUI();
-                    auth.showNotification('Avatar updated!', 'success');
-                };
-                reader.readAsDataURL(file);
+        function loadRecentDownloads(userId) {
+            const downloads = GamesArcDB.getUserDownloads(userId)
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 5);
+            
+            const container = document.getElementById('recentDownloads');
+            
+            if (downloads.length === 0) {
+                container.innerHTML = '<p class="empty-state">No downloads yet</p>';
+                return;
             }
-        });
+            
+            container.innerHTML = downloads.map(download => `
+                <div class="download-item">
+                    <div class="download-info">
+                        <h4>${download.gameTitle}</h4>
+                        <p>${new Date(download.date).toLocaleDateString()} • +${download.pointsEarned} points</p>
+                    </div>
+                    <div class="download-actions">
+                        <button class="btn btn-small" onclick="redownload('${download.gameId}')">
+                            <i class="fas fa-redo"></i> Download Again
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function loadBadges(badges) {
+            const badgeData = {
+                'newbie': { icon: 'fa-user', color: '#3b82f6', title: 'Newbie' },
+                'first_download': { icon: 'fa-download', color: '#10b981', title: 'First Download' },
+                'game_collector': { icon: 'fa-gamepad', color: '#8b5cf6', title: 'Game Collector' },
+                'hardcore_gamer': { icon: 'fa-fire', color: '#ef4444', title: 'Hardcore Gamer' },
+                'point_master': { icon: 'fa-star', color: '#f59e0b', title: 'Point Master' },
+                'weekly_warrior': { icon: 'fa-calendar-week', color: '#8b5cf6', title: 'Weekly Warrior' },
+                'monthly_champion': { icon: 'fa-crown', color: '#f59e0b', title: 'Monthly Champion' }
+            };
+            
+            const container = document.getElementById('badgesList');
+            
+            if (badges.length === 0) {
+                container.innerHTML = '<p class="empty-state">No badges yet</p>';
+                return;
+            }
+            
+            container.innerHTML = badges.map(badge => {
+                const data = badgeData[badge] || { icon: 'fa-award', color: '#94a3b8', title: badge };
+                return `
+                    <div class="badge-item" style="border-color: ${data.color}">
+                        <div class="badge-icon" style="background: ${data.color}">
+                            <i class="fas ${data.icon}"></i>
+                        </div>
+                        <h4>${data.title}</h4>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function changeAvatar() {
+            alert('Avatar change feature coming soon!');
+        }
         
         function changePassword() {
-            const newPassword = prompt('Enter new password:');
+            const newPassword = prompt('Enter new password (min. 6 characters):');
             if (newPassword && newPassword.length >= 6) {
                 const user = GamesArcDB.getCurrentUser();
                 GamesArcDB.changePassword(user.email, newPassword);
                 auth.showNotification('Password changed successfully', 'success');
             }
         }
+        
+        function exportData() {
+            const user = GamesArcDB.getCurrentUser();
+            const data = GamesArcDB.exportUserData(user.id);
+            
+            // Create download link
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gamesarc-data-${user.username}-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            auth.showNotification('Data exported successfully', 'success');
+        }
+        
+        function redownload(gameId) {
+            auth.downloadGame(gameId, 'Game');
+        }
     </script>
-    <header>
-    <nav>
-        <div class="logo">
-            <a href="index.html">GamesArc</a>
-        </div>
-        <div class="nav-links">
-            <a href="games.html">Games</a>
-            <a href="all-pc-games.html">PC Games</a>
-            <a href="membership.html">Membership</a>
-            <a href="contact.html">Contact</a>
-        </div>
-        <div class="nav-auth">
-            <a href="login.html" id="loginBtn" class="btn btn-outline">Login</a>
-            <div class="user-menu" id="profileBtn" style="display: none;">
-                <button class="btn">
-                    <span>Profile</span>
-                </button>
-                <div class="dropdown-content" id="userMenu"></div>
-            </div>
-        </div>
-    </nav>
-</header>
 </body>
 </html>

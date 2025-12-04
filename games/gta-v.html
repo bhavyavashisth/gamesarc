@@ -457,5 +457,19 @@
         </div>
     </nav>
 </header>
+<button class="download-btn" 
+        data-game-id="gta-v" 
+        data-game-title="Grand Theft Auto V"
+        onclick="handleDownload('gta-v', 'Grand Theft Auto V')">
+    <i class="fas fa-download"></i> Download Now (+10 points)
+</button>
+
+<script>
+function handleDownload(gameId, gameTitle) {
+    if (window.auth) {
+        auth.downloadGame(gameId, gameTitle);
+    }
+}
+</script>
 </body>
 </html>
