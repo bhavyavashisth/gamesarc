@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesArc - Premium PC Gaming Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="🎮">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎮</span>
+                <span>GamesArc</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                <li><a href="#how-it-works"><i class="fas fa-info-circle"></i> How It Works</a></li>
+                <li><a href="#categories"><i class="fas fa-layer-group"></i> Categories</a></li>
+                <li><a href="membership.html"><i class="fas fa-crown"></i> Membership</a></li>
+            </ul>
+            
+            <div id="nav-auth">
+                <!-- Auth buttons will be injected here -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>PLAY. EARN. LEVEL UP.</h1>
+            <p class="hero-subtitle">The ultimate PC gaming platform where every download earns you points and unlocks new achievements</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-games">0</div>
+                    <div class="stat-label">Premium Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-downloads">0</div>
+                    <div class="stat-label">Total Downloads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-users">0</div>
+                    <div class="stat-label">Active Players</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-points">0</div>
+                    <div class="stat-label">Points Awarded</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="games.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-gamepad"></i> Browse Games
+                </a>
+                <a href="login.html" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-user-plus"></i> Join Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Games -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>🔥 Featured Games</h2>
+                <a href="games.html" class="btn btn-outline">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="games-grid" id="featured-games">
+                <!-- Games will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section" style="background: var(--bg-darker);">
+        <div class="container">
+            <h2 style="text-align: center;">🎯 How GamesArc Works</h2>
+            
+            <div class="steps-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-xl);">
+                <div class="step-card" style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--border-radius); text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 3rem; margin-bottom: var(--spacing-md); color: var(--primary);">1</div>
+                    <h3 style="font-size: 1.3rem;">Sign Up Free</h3>
+                    <p style="color: var(--text-secondary);">Create your account and receive 100 welcome points</p>
+                </div>
+                
+                <div class="step-card" style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--border-radius); text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 3rem; margin-bottom: var(--spacing-md); color: var(--primary);">2</div>
+                    <h3 style="font-size: 1.3rem;">Download Games</h3>
+                    <p style="color: var(--text-secondary);">Browse our collection and download premium PC games</p>
+                </div>
+                
+                <div class="step-card" style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--border-radius); text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 3rem; margin-bottom: var(--spacing-md); color: var(--primary);">3</div>
+                    <h3 style="font-size: 1.3rem;">Earn Points</h3>
+                    <p style="color: var(--text-secondary);">Get 10 points for every download and activity</p>
+                </div>
+                
+                <div class="step-card" style="background: var(--bg-card); padding: var(--spacing-lg); border-radius: var(--border-radius); text-align: center; border: 1px solid var(--border-color);">
+                    <div style="font-size: 3rem; margin-bottom: var(--spacing-md); color: var(--primary);">4</div>
+                    <h3 style="font-size: 1.3rem;">Level Up</h3>
+                    <p style="color: var(--text-secondary);">Unlock achievements and track your gaming journey</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Categories -->
+    <section id="categories" class="section">
+        <div class="container">
+            <h2 style="text-align: center;">🎮 Game Categories</h2>
+            
+            <div class="categories-grid" id="categories-list">
+                <!-- Categories will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" style="background: var(--bg-darker);">
+        <div class="container">
+            <h2 style="text-align: center;">🌟 What Gamers Say</h2>
+            
+            <div class="testimonials-grid" id="testimonials-list">
+                <!-- Testimonials will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section">
+        <div class="container" style="text-align: center;">
+            <h2>Ready to Start Your Gaming Journey?</h2>
+            <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: var(--spacing-lg);">
+                Join thousands of gamers who are already earning points and unlocking achievements
+            </p>
+            <a href="login.html" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket"></i> Get Started For Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GamesArc</h3>
+                    <p style="color: var(--text-muted);">The ultimate PC gaming platform where every download earns you points and unlocks new achievements.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="games.html"><i class="fas fa-gamepad"></i> Games</a></li>
+                        <li><a href="membership.html"><i class="fas fa-crown"></i> Membership</a></li>
+                        <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                        <li><a href="#"><i class="fab fa-reddit"></i> Reddit</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 GamesArc. All rights reserved. All game trademarks are property of their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="gamesarc-db.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialize the platform
+        document.addEventListener('DOMContentLoaded', function() {
+            GamesArcAuth.initAuth();
+            GamesArcAuth.updateNavigation();
+            
+            // Load platform stats
+            const stats = GamesArcDB.getPlatformStats();
+            document.getElementById('total-games').textContent = stats.totalGames.toLocaleString();
+            document.getElementById('total-downloads').textContent = stats.totalDownloads.toLocaleString();
+            document.getElementById('total-users').textContent = stats.totalUsers.toLocaleString();
+            document.getElementById('total-points').textContent = stats.totalPoints.toLocaleString();
+            
+            // Load featured games
+            loadFeaturedGames();
+            
+            // Load categories
+            loadCategories();
+            
+            // Load testimonials
+            loadTestimonials();
+        });
+        
+        function loadFeaturedGames() {
+            const games = GamesArcDB.getFeaturedGames();
+            const container = document.getElementById('featured-games');
+            
+            container.innerHTML = games.slice(0, 3).map(game => `
+                <div class="game-card">
+                    <img src="${game.image}" alt="${game.title}" class="game-image">
+                    <div class="game-content">
+                        <h3 class="game-title">${game.title}</h3>
+                        <div class="game-meta">
+                            <span class="game-genre">${game.genre}</span>
+                            <span class="game-rating">
+                                <i class="fas fa-star"></i> ${game.rating}
+                            </span>
+                        </div>
+                        <p class="game-size">Size: ${game.size}</p>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: var(--spacing-md);">
+                            ${game.description.substring(0, 100)}...
+                        </p>
+                        <div class="game-stats">
+                            <span class="game-downloads">${game.downloads.toLocaleString()} downloads</span>
+                            <a href="${game.slug}.html" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function loadCategories() {
+            const db = GamesArcDB.getDB();
+            const container = document.getElementById('categories-list');
+            
+            container.innerHTML = db.categories.map(cat => `
+                <div class="category-card">
+                    <div class="category-icon">🎮</div>
+                    <h3>${cat.name}</h3>
+                    <div class="category-count">${cat.count} Games</div>
+                </div>
+            `).join('');
+        }
+        
+        function loadTestimonials() {
+            const db = GamesArcDB.getDB();
+            const container = document.getElementById('testimonials-list');
+            
+            container.innerHTML = db.testimonials.map(testimonial => `
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">${testimonial.avatar}</div>
+                        <div class="testimonial-info">
+                            <h4>${testimonial.name}</h4>
+                            <div class="testimonial-role">${testimonial.role}</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"${testimonial.text}"</p>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
